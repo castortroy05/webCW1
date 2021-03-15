@@ -15,7 +15,11 @@ exports.goals_list = function(req, res) {
     })
 }
 
-
+exports.seed = function(req, res) {
+    db.init();
+    console.log('Database seeded')
+    res.redirect('/');
+}
 
 exports.post_new_goal = function(req, res) {
     if (!req.body.author) {

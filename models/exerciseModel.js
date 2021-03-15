@@ -1,6 +1,8 @@
 const { rejects } = require('assert');
 const nedb = require('nedb');
 const { resolve } = require('path');
+
+
 class Goals{
 constructor(dbFilePath) {
     if(dbFilePath)
@@ -9,7 +11,7 @@ constructor(dbFilePath) {
     console.log('DB connected to ' + dbFilePath);
     } else {
         this.db = new nedb();
-        console.log('db connected in memory');
+        console.log('db connected in memory' + dbFilePath);
     }
 }
 
@@ -32,20 +34,19 @@ init() {
 
 getAllGoals(){
     return new Promise((resolve, reject) => {
-        //use the find() function of the database to get the data
-        //error first callback function, err for error, goals for data
         this.db.find({}, function(err, goals){
             if (err){
             reject(err);
-            //if no error, resolve the promise & return the data
              } else {
         resolve(goals);
-        //to see what the returned data looks like 
         console.log('function all() returns ', goals);
     }   
     })
     })
 }
+
+getCompleted
+
 
 addGoal(author, exercise, details, endDate) {
 console.log('attempting to add', author, exercise, details, endDate)
