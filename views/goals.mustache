@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+       {{>header}}
+    </head>
+    <body class ="container" style="padding-top: 100px;">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+      
+   
+        <div class ="card-group gap-3">
+        {{#goals}}        
+            <div class="card border-info shadow" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
+                <div class="card-header text-lg-center text-capitalize">
+                    {{exercise}}
+                <div class="card-subtitle badge text-end rounded-pill bg-secondary text-capitalize">
+                    To be completed by {{endDate}}
+                </div></div>
+                <div class="card-body text-capitalize">
+                 <p class="card-text" style="min-height: 5rem;">
+                {{details}}
+                </p>
+                
+            <p class="card-footer text-muted">
+                Written by {{author}} on {{started}}
+            </p>
+        </div>
+    </div>
+
+        <hr>
+        {{/goals}}</div>
+        {{^goals}}
+        No goals yet.
+        {{/goals}}
+        
+
+
+
+        <script src="" async defer></script>
+    </body>
+</html>
