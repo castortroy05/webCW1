@@ -1,7 +1,7 @@
 const { response } = require('express');
 const GoalsDAO = require('../models/exerciseModel');
 
-const db = new GoalsDAO();
+const db = new GoalsDAO('newgoals.db');
 
 exports.goals_list = function(req, res) {
     db.getAllGoals().then((list) => {

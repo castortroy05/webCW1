@@ -12,15 +12,6 @@ const app = express();
 
 const public = path.join(__dirname, 'public');
 
-//const db = new nedb({filename: 'goals.db', autoload: true});
-
-//const db = new nedb({filename:path.join(__dirname, 'goals.db'), autoload:true});
-
-const dbFilePath = path.join(__dirname, '/goals.db')
-console.log(dbFilePath) //THIS LINE
-const db = new nedb({filename: dbFilePath , autoload:true});
-//console.log(db);
-
 app.use(express.urlencoded({extended: false}));
 
 app.use(express.static(public));
