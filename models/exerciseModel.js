@@ -28,7 +28,55 @@ init() {
     // terminal notification for later debugging
     console.log('db entry Peter inserted');
 
+}
+    seedDb() {
+        this.db.insert({
+            exercise: 'Walking',
+            details: '5 Km walk',
+            started: '2020-03-16',
+            endDate: '2020-03-17',
+            author: 'Katrin',
+            achieved: false
+    
+        })
+        // terminal notification for later debugging
+        console.log('db entry Katrin inserted');
 
+        this.db.insert({
+            exercise: 'Jogging',
+            details: '10 Km jog',
+            started: '2020-03-16',
+            endDate: '2020-03-17',
+            author: 'James',
+            achieved: false
+    
+        })
+        // terminal notification for later debugging
+        console.log('db entry James inserted');
+
+        this.db.insert({
+            exercise: 'Running',
+            details: '15 Km run',
+            started: '2020-03-16',
+            endDate: '2020-03-17',
+            author: 'Joshua',
+            achieved: false
+    
+        })
+        // terminal notification for later debugging
+        console.log('db entry Joshua inserted');
+
+        this.db.insert({
+            exercise: 'Climbing',
+            details: '150m Free Climb',
+            started: '2020-03-16',
+            endDate: '2020-03-17',
+            author: 'Sam',
+            achieved: true
+    
+        })
+        // terminal notification for later debugging
+        console.log('db entry Sam inserted');
 
 
 }
@@ -46,8 +94,31 @@ getAllGoals(){
     })
 }
 
-getCompleted
+getAllCompletedGoals(){
+    return new Promise((resolve, reject) => {
+        this.db.find({achieved: true}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function all() returns ', goals);
+    }   
+    })
+    })
+}
 
+getAllIncompleteGoals(){
+    return new Promise((resolve, reject) => {
+        this.db.find({achieved: false}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function all() returns ', goals);
+    }   
+    })
+    })
+}
 
 addGoal(author, exercise, details, endDate) {
 console.log('attempting to add', author, exercise, details, endDate)
@@ -71,7 +142,21 @@ this.db.insert(goal, function(err, doc) {
 })
 }
 
+
+
+
+deleteGoal(goalId){
+    this.db.remove({_id: goalId }, {}, function(err, goalRem) {
+        if(err) {
+            console.log('Error deleting goal ' + goalId);
+        } else {
+            console.log(goalRem, ' goals removed from the database ');
+        }
+        })
+    }    
+
 }
+
 
 //export the module
 module.exports = Goals;

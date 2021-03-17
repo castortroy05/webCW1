@@ -7,29 +7,32 @@
     <head>
        {{>header}}
     </head>
-    <body class ="container" style="padding-top: 100px;">
+    <body class ="container-fluid" style="background-color:#76A5AF; margin-top: 100px;">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
       
    
-        <div class ="card-group gap-3">
+        <div class ="justify-content-center card-group gap-3">
         {{#goals}}        
-            <div class="card border-info shadow" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
-                <div class="card-header text-lg-center text-capitalize">
-                    {{exercise}}
-                <div class="card-subtitle badge text-end rounded-pill bg-secondary text-capitalize">
+            <div class="card bg-light border-primary shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
+                <div class="card-header text-center shadow-sm text-capitalize">
+                    <h2 class="text-lg">{{exercise}}</h2>
+                <div class="card-subtitle text-sm text-muted text-capitalize">
                     To be completed by {{endDate}}
                 </div></div>
-                <div class="card-body text-capitalize">
+                <div class="card-body bg-light text-capitalize">
                  <p class="card-text" style="min-height: 5rem;">
                 {{details}}
                 </p>
-                
-            <p class="card-footer text-muted">
-                Written by {{author}} on {{started}}
-            </p>
-        </div>
+                </div>
+            <div class="card-footer text-muted text-center">
+               <p>Set by {{author}} on {{started}}</p>
+               <div class="btn-group btn-group-lg shadow">
+                <button type="button" class="btn btn-rounded float-left btn-outline-success">View</button>
+                <button type="button" class="btn btn-rounded btn-outline-warning">Edit</button>
+                <button type="button" class="btn btn-rounded float-right btn-outline-danger">Delete</button>
+            </div></div>
     </div>
 
         <hr>
@@ -43,4 +46,5 @@
 
         <script src="" async defer></script>
     </body>
+    
 </html>
