@@ -28,16 +28,25 @@ router.get('edit/:_id', controller.edit_goal);
 
 router.get('share/:_id', controller.share_goal);
 
-router.use(function(req, res) {
+router.use(function( req, res) {
+    res.render('error', {
+        'title': 'Error Page',
+        'status': 404,
+        'message': 'Page not found',
+        
+    });
     res.status(404);
-    res.type('html');
-    res.send('404 Not Found');
 })
 
 router.use(function(err, req, res, next) {
+    
+    res.render('error', {
+        'title': 'Error Page',
+        'status': 500,
+        'message': 'Internal server error, system borked',
+        'error': err
+    });
     res.status(500);
-    res.type('html');
-    res.send('Internal Server Error borked');
     console.log(err)
 })
 

@@ -15,10 +15,10 @@
    
         <div class ="justify-content-center card-group gap-3">
         {{#goals}}        
-            <div class="card bg-light border-primary shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
+            <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
                 <div class="card-header text-center shadow-sm text-capitalize">
                     <h2 class="text-lg">{{exercise}}</h2>
-                <div class="card-subtitle text-sm text-muted text-capitalize">
+                <div class="card-subtitle text-sm text-capitalize">
                     To be completed by {{endDate}}
                 </div></div>
                 <div class="card-body bg-light text-capitalize">
@@ -26,12 +26,12 @@
                 {{details}}
                 </p>
                 </div>
-            <div class="card-footer text-muted text-center">
+            <div class="card-footer text-center">
                <p>Set by {{author}} on {{started}}</p>
                <div class="btn-group btn-group-lg shadow-lg">
-                <button type="button" class="btn btn-rounded float-left btn-outline-success">View</button>
-                <button type="button" class="btn btn-rounded btn-outline-warning">Edit</button>
-                <button type="button" class="btn btn-rounded float-right btn-outline-danger">Delete</button>
+                <button type="button" class="btn btn-rounded float-left btn-outline-dark">View</button>
+                <button type="button" class="btn btn-rounded btn-outline-dark">Edit</button>
+                <button type="button" class="btn btn-rounded float-right btn-outline-dark">Delete</button>
             </div></div>
     </div>
 

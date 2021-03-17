@@ -22,7 +22,8 @@ init() {
         started: '2020-02-16',
         endDate: '2020-03-17',
         author: 'Peter',
-        achieved: false
+        achieved: false,
+        colour: warning
 
     })
     // terminal notification for later debugging
@@ -36,7 +37,8 @@ init() {
             started: '2020-03-16',
             endDate: '2020-03-17',
             author: 'Katrin',
-            achieved: false
+            achieved: false,
+            colour: 'warning'
     
         })
         // terminal notification for later debugging
@@ -48,7 +50,8 @@ init() {
             started: '2020-03-16',
             endDate: '2020-03-17',
             author: 'James',
-            achieved: false
+            achieved: false,
+            colour: 'warning'
     
         })
         // terminal notification for later debugging
@@ -60,7 +63,8 @@ init() {
             started: '2020-03-16',
             endDate: '2020-03-17',
             author: 'Joshua',
-            achieved: false
+            achieved: false,
+            colour: 'warning'
     
         })
         // terminal notification for later debugging
@@ -72,7 +76,8 @@ init() {
             started: '2020-03-16',
             endDate: '2020-03-17',
             author: 'Sam',
-            achieved: true
+            achieved: true,
+            colour: 'success'
     
         })
         // terminal notification for later debugging
@@ -128,7 +133,8 @@ var goal = {
     details: details,
     endDate: endDate,
     started: new Date().toISOString().split('T')[0],
-    achieved: false
+    achieved: false,
+    colour: 'warning'
 
 }
 console.log('goal created', goal);

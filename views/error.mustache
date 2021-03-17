@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+       {{>header}}
+    </head>
+    <body class ="container-fluid justify-content-center" style="background-color:#76A5AF; margin-top: 100px;">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+      
+         <div class="justify-content-center" align="center">
+            <div class="card bg-danger shadow-lg"  style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
+                <div class="card-header text-center shadow-sm text-capitalize">
+                    <h1 class="text-lg">{{status}}</h1>
+                </div>
+                <div class="card-body bg-light text-capitalize">
+                 <p class="card-text" style="min-height: 5rem;">
+                {{message}}
+                </p>
+                </div>
+            <div class="card-footer text-muted text-center">
+               <p>{{err}}</p>
+               </div>
+    </div>
+    </div>
+        </div>
+        
+
+
+
+        <script src="" async defer></script>
+    </body>
+    
+</html>
