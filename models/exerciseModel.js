@@ -21,7 +21,7 @@ init() {
         details: '1000 squats',
         started: '2020-02-16',
         endDate: '2020-03-17',
-        author: 'Peter',
+        user: 'Peter',
         achieved: false,
         colour: warning
 
@@ -36,7 +36,7 @@ init() {
             details: '5 Km walk',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            author: 'Katrin',
+            user: 'Katrin',
             achieved: false,
             colour: 'warning'
     
@@ -49,7 +49,7 @@ init() {
             details: '10 Km jog',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            author: 'James',
+            user: 'James',
             achieved: false,
             colour: 'warning'
     
@@ -62,7 +62,7 @@ init() {
             details: '15 Km run',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            author: 'Joshua',
+            user: 'Joshua',
             achieved: false,
             colour: 'warning'
     
@@ -75,7 +75,7 @@ init() {
             details: '150m Free Climb',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            author: 'Sam',
+            user: 'Sam',
             achieved: true,
             colour: 'success'
     
@@ -93,7 +93,20 @@ getAllGoals(){
             reject(err);
              } else {
         resolve(goals);
-        console.log('function all() returns ', goals);
+        console.log('function getAllGoals() returns ', goals);
+    }   
+    })
+    })
+}
+
+getUserGoals(user){
+    return new Promise((resolve, reject) => {
+        this.db.find({user: user}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function getUserGoals(user) returns ',user , goals);
     }   
     })
     })
@@ -112,6 +125,20 @@ getAllCompletedGoals(){
     })
 }
 
+getUserCompletedGoals(user){
+    return new Promise((resolve, reject) => {
+        this.db.find({user: user, achieved: true,}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function all() returns ', goals);
+    }   
+    })
+    })
+}
+
+
 getAllIncompleteGoals(){
     return new Promise((resolve, reject) => {
         this.db.find({achieved: false}, function(err, goals){
@@ -125,10 +152,36 @@ getAllIncompleteGoals(){
     })
 }
 
-addGoal(author, exercise, details, endDate) {
-console.log('attempting to add', author, exercise, details, endDate)
+getUserIncompleteGoals(user){
+    return new Promise((resolve, reject) => {
+        this.db.find({user: user,achieved: false}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function all() returns ', goals);
+    }   
+    })
+    })
+}
+
+getGoal(id){
+    return new Promise((resolve, reject) => {
+        this.db.find({_id: id}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function getGoal() returns ', goals);
+    }   
+    })
+    })
+}
+
+addGoal(user, exercise, details, endDate) {
+console.log('attempting to add', user, exercise, details, endDate)
 var goal = {
-    author: author,
+    user: user,
     exercise: exercise,
     details: details,
     endDate: endDate,
@@ -139,6 +192,8 @@ var goal = {
 }
 console.log('goal created', goal);
 
+
+
 this.db.insert(goal, function(err, doc) {
     if (err) {
         console.log('Error inserting goals', exercise);
@@ -147,6 +202,18 @@ this.db.insert(goal, function(err, doc) {
     }
 })
 }
+
+updateGoal(id, exercise, details, endDate) {
+    console.log('attempting to update', exercise, details, endDate, ' to post id ', id)
+    // console.log('goal created', goal);
+    this.db.update({_id: id},{$set: { exercise: exercise, details: details, endDate: endDate }}, function(err, doc) {
+        if (err) {
+            console.log('Error inserting goals', exercise);
+        } else {
+            console.log('document updated in the database', doc);
+        }
+    })
+    }
 
 
 

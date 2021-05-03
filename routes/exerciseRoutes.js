@@ -2,31 +2,57 @@ const express = require('express');
 
 const router = express.Router();
 
+const { ensureLoggedIn } = require('connect-ensure-login');
+
 const controller = require('../controllers/exerciseControllers.js');
+
+// // req.isAuthenticated is provided from the auth router
+// app.get('/', (req, res) => {
+//     res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+//   });
 
 router.get("/", controller.landing_page);
 
-router.get('/goals', controller.goals_list);
+const { requiresAuth } = require('express-openid-connect');
+
+router.get('/profile', requiresAuth(), (req, res) => {
+    res.render('profile', {
+        'picture': req.oidc.user.picture,
+        'nickname': req.oidc.user.nickname,
+        'name': req.oidc.user.name,
+        'email': req.oidc.user.email,
+        'updated': req.oidc.user.updated_at,
+
+        
+    });
+  //res.send(JSON.stringify(req.oidc.user));
+});
+
+router.get('/goals', requiresAuth(), controller.goals_list);
 
 router.get('/incompletegoals', controller.incomplete_goals);
 
 router.get('/completedgoals', controller.completed_goals);
 
-router.get('/new', controller.new_goal);
+router.get('/new', requiresAuth(), controller.new_goal);
 
-router.post('/new', controller.post_new_goal);
+router.post('/new', requiresAuth(), controller.post_new_goal);
 
 router.get('/about', controller.about_page);
 
 router.use('/dbseed', controller.seed);
 
-router.get('delete/:_id', controller.delete_goal);
+router.get('/delete/:id', requiresAuth(), controller.delete_goal);
 
-router.get('view/:_id', controller.view_goal);
+router.get('/view/:id', controller.view_goal);
 
-router.get('edit/:_id', controller.edit_goal);
+router.get('/edit/:id', requiresAuth(), controller.edit_goal);
 
-router.get('share/:_id', controller.share_goal);
+router.get('/posts/:user', requiresAuth(), controller.user_goals_list);
+
+router.post('/edit/:id', requiresAuth(), controller.post_update_goal);
+
+router.get('/share/:id', requiresAuth(), controller.share_goal);
 
 router.use(function( req, res) {
     res.render('error', {
