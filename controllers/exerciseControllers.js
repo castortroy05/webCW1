@@ -59,6 +59,17 @@ exports.post_update_goal = function(req, res) {
         res.redirect('/');
     
 };
+exports.post_complete_goal = function(req, res) {
+    if (!req.oidc.user.nickname) {
+        response.status(400).send("Entries must have a user.");
+        return;
+    }  
+        console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
+       db.completeGoal(req.params.id);
+        res.redirect('/');
+    
+};
+
 exports.landing_page = function(req, res) {
 
     if(!req.oidc.user)
@@ -153,6 +164,21 @@ exports.view_goal = function(req, res){
 };
 
 exports.edit_goal = function(req, res){
+    console.log('editing goal with id ', req.params.id);
+    let goal = req.params.id;
+    let user = req.oidc.user.nickname;
+    db.getGoal(goal).then((goals) => {
+        res.render('editGoal', {
+            'title': 'Edit Goal',
+            'goals': goals,
+            'user': req.oidc.user.nickname, 
+        });
+    }).catch((err) => {
+        console.log('error handling goal ', err);
+    });
+};
+
+exports.complete_goal = function(req, res){
     console.log('editing goal with id ', req.params.id);
     let goal = req.params.id;
     let user = req.oidc.user.nickname;

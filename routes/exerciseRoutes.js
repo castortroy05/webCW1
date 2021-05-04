@@ -42,6 +42,10 @@ router.get('/view/:id', controller.view_goal);
 
 router.get('/edit/:id', requiresAuth(), controller.edit_goal);
 
+router.get('/completegoal/:id', requiresAuth(), controller.complete_goal);
+
+router.post('/completegoal/:id', requiresAuth(), controller.post_complete_goal);
+
 router.get('/posts/:user', requiresAuth(), controller.user_goals_list);
 
 router.post('/edit/:id', requiresAuth(), controller.post_update_goal);

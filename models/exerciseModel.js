@@ -216,6 +216,18 @@ updateGoal(id, exercise, details, endDate) {
     }
 
 
+    completeGoal(id) {
+        console.log('attempting to complete post id ', id)
+        // console.log('goal created', goal);
+        this.db.update({_id: id},{$set: { achieved: true, colour: 'primary' }}, function(err, doc) {
+            if (err) {
+                console.log('Error inserting goals', id);
+            } else {
+                console.log('document updated in the database', doc);
+            }
+        })
+        }
+
 
 
 deleteGoal(goalId){
