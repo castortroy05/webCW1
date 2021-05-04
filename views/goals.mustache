@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+       {{>header}}
+    </head>
+    <body class ="container-fluid" style="background-color:#76A5AF; margin-top: 100px;">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+      
+   
+        <div class ="justify-content-center card-group gap-3">
+        {{#goals}}        
+            <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
+                <div class="card-header text-center shadow-sm text-capitalize">
+                    <h2 class="text-lg">{{exercise}}</h2>
+                <div class="card-subtitle text-sm text-capitalize">
+                    To be completed by {{endDate}}
+                </div></div>
+                <div class="card-body bg-light text-capitalize">
+                 <p class="card-text" style="min-height: 5rem;">
+                {{details}}
+                </p>
+                </div>
+            <div class="card-footer text-center">
+               <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
+               <div class="btn-group btn-group-lg shadow-lg">
+                <a href="/edit/{{_id}}" class="btn btn-rounded float-left btn-outline-dark">Edit</a>
+                <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
+                <a href="/delete/{{_id}}" class="btn btn-rounded float-right btn-outline-dark">Delete</a>
+            </div></div>
+    </div>
+
+        <hr>
+        {{/goals}}</div>                            
+        {{^goals}}
+        No goals yet.
+        {{/goals}}
+        
+
+
+
+        <script src="" async defer></script>
+    </body>
+    
+</html>

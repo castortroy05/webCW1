@@ -1,0 +1,4 @@
+{"exercise":"Jogging","details":"10 Km jog","started":"2020-03-16","endDate":"2020-03-17","user":"James","achieved":false,"colour":"warning","_id":"0ILbKtExRiHMuyvo"}
+{"exercise":"Walking","details":"5 Km walk","started":"2020-03-16","endDate":"2020-03-17","user":"Katrin","achieved":false,"colour":"warning","_id":"m0BwKU0AKvG7tMdK"}
+{"exercise":"Climbing","details":"150m Free Climb","started":"2020-03-16","endDate":"2020-03-17","user":"Sam","achieved":true,"colour":"success","_id":"s2MYtjfSaadh4Idp"}
+{"user":"antony.lockhart","exercise":"1 million presentations","details":"Just all the things and then more things","endDate":"2021-05-08","started":"2021-05-03","achieved":false,"colour":"warning","_id":"wiQrEmlXuOQNw9Fu"}
