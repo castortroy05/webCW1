@@ -21,11 +21,11 @@ router.get('/profile', requiresAuth(), (req, res) => {
   //res.send(JSON.stringify(req.oidc.user));
 });
 
-router.get('/goals', requiresAuth(), controller.goals_list);
+router.get('/goals', requiresAuth(), controller.user_goals_list);
 
-router.get('/incompletegoals', controller.incomplete_goals);
+router.get('/incompletegoals', controller.user_incomplete_goals_list);
 
-router.get('/completedgoals', controller.completed_goals);
+router.get('/completedgoals', controller.user_completed_goals_list);
 
 router.get('/new', requiresAuth(), controller.new_goal);
 
@@ -55,7 +55,7 @@ router.use(function( req, res) {
         
     });
     res.status(404);
-})
+});
 
 router.use(function(err, req, res, next) {
     
@@ -66,7 +66,7 @@ router.use(function(err, req, res, next) {
         'error': err
     });
     res.status(500);
-    console.log(err)
-})
+    console.log(err);
+});
 
 module.exports = router;
