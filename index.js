@@ -38,6 +38,6 @@ app.set('view engine', 'mustache');
 
 app.use('/', router);
 
-app.listen(8080, () => {
-    console.log('Server started on port 8080. Ctrl & C to quit');
-})
+app.listen(process.env.PORT ||8080, () => {
+    console.log('Server started on port 8080 or ' , process.env.PORT , ' Ctrl & C to quit');
+});
