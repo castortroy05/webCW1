@@ -18,17 +18,15 @@
                 <div class="card-header text-center shadow-sm text-capitalize">
                     <h1 class="text-lg">{{nickname}}</h1>
                 </div>
-                <div class="card-body bg-light">
-                 <p class="card-text">
-                User Name : {{name}}
-                </p>
-                <p class="card-text">
-                Email : {{email}}
-                </p>
-                <a href="/logout" class="btn btn-danger">Logout</a>
-                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark">User Name : {{name}}</li>
+                    <li class="list-group-item bg-dark">Email : {{email}}</li>
+                
+                
+                </ul>
             <div class="card-footer text-muted text-center">
                <p>Last Updated : {{updated}}</p>
+               <a href="/logout" class="btn btn-outline-danger">Logout</a>
                </div>
     </div>
     </div>
