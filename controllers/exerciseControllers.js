@@ -63,6 +63,9 @@ exports.landing_page = function(req, res) {
 
     if(!req.oidc.user)
     {
+        res.render('goals', {
+            'title': 'Exercise Goals' 
+        });
     
     }
     else{
