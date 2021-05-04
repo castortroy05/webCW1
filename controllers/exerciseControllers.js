@@ -183,7 +183,7 @@ exports.complete_goal = function(req, res){
     let goal = req.params.id;
     let user = req.oidc.user.nickname;
     db.getGoal(goal).then((goals) => {
-        res.render('editGoal', {
+        res.render('completeGoal', {
             'title': 'Edit Goal',
             'goals': goals,
             'user': req.oidc.user.nickname, 
