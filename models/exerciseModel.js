@@ -25,7 +25,7 @@ init() {
         achieved: false,
         colour: warning
 
-    })
+    });
     // terminal notification for later debugging
     console.log('db entry Peter inserted');
 
@@ -40,7 +40,7 @@ init() {
             achieved: false,
             colour: 'warning'
     
-        })
+        });
         // terminal notification for later debugging
         console.log('db entry Katrin inserted');
 
@@ -53,7 +53,7 @@ init() {
             achieved: false,
             colour: 'warning'
     
-        })
+        });
         // terminal notification for later debugging
         console.log('db entry James inserted');
 
@@ -66,7 +66,7 @@ init() {
             achieved: false,
             colour: 'warning'
     
-        })
+        });
         // terminal notification for later debugging
         console.log('db entry Joshua inserted');
 
@@ -79,7 +79,7 @@ init() {
             achieved: true,
             colour: 'success'
     
-        })
+        });
         // terminal notification for later debugging
         console.log('db entry Sam inserted');
 
@@ -95,8 +95,8 @@ getAllGoals(){
         resolve(goals);
         console.log('function getAllGoals() returns ', goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 getUserGoals(user){
@@ -108,8 +108,8 @@ getUserGoals(user){
         resolve(goals);
         console.log('function getUserGoals(user) returns ',user , goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 getAllCompletedGoals(){
@@ -121,8 +121,8 @@ getAllCompletedGoals(){
         resolve(goals);
         console.log('function all() returns ', goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 getUserCompletedGoals(user){
@@ -134,8 +134,8 @@ getUserCompletedGoals(user){
         resolve(goals);
         console.log('function all() returns ', goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 
@@ -148,8 +148,8 @@ getAllIncompleteGoals(){
         resolve(goals);
         console.log('function all() returns ', goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 getUserIncompleteGoals(user){
@@ -161,8 +161,8 @@ getUserIncompleteGoals(user){
         resolve(goals);
         console.log('function all() returns ', goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 getGoal(id){
@@ -174,12 +174,12 @@ getGoal(id){
         resolve(goals);
         console.log('function getGoal() returns ', goals);
     }   
-    })
-    })
+    });
+    });
 }
 
 addGoal(user, exercise, details, endDate) {
-console.log('attempting to add', user, exercise, details, endDate)
+console.log('attempting to add', user, exercise, details, endDate);
 var goal = {
     user: user,
     exercise: exercise,
@@ -189,7 +189,7 @@ var goal = {
     achieved: false,
     colour: 'warning'
 
-}
+};
 console.log('goal created', goal);
 
 
@@ -200,11 +200,11 @@ this.db.insert(goal, function(err, doc) {
     } else {
         console.log('document inserted into the database', doc);
     }
-})
+});
 }
 
 updateGoal(id, exercise, details, endDate) {
-    console.log('attempting to update', exercise, details, endDate, ' to post id ', id)
+    console.log('attempting to update', exercise, details, endDate, ' to post id ', id);
     // console.log('goal created', goal);
     this.db.update({_id: id},{$set: { exercise: exercise, details: details, endDate: endDate }}, function(err, doc) {
         if (err) {
@@ -212,12 +212,12 @@ updateGoal(id, exercise, details, endDate) {
         } else {
             console.log('document updated in the database', doc);
         }
-    })
+    });
     }
 
 
     completeGoal(id) {
-        console.log('attempting to complete post id ', id)
+        console.log('attempting to complete post id ', id);
         // console.log('goal created', goal);
         this.db.update({_id: id},{$set: { achieved: true, colour: 'success' }}, function(err, doc) {
             if (err) {
@@ -225,7 +225,7 @@ updateGoal(id, exercise, details, endDate) {
             } else {
                 console.log('document updated in the database', doc);
             }
-        })
+        });
         }
 
 
@@ -237,7 +237,7 @@ deleteGoal(goalId){
         } else {
             console.log(goalRem, ' goals removed from the database ');
         }
-        })
+        });
     }    
 
 }

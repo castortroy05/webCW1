@@ -29,10 +29,15 @@
             <div class="card-footer text-center">
                <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
                <div class="btn-group btn-group-lg shadow-lg">
+                   {{^achieved}}
                 <a href="/edit/{{_id}}" class="btn btn-rounded float-left btn-outline-dark">Edit</a>
                 <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
                 <a href="/delete/{{_id}}" class="btn btn-rounded btn-outline-dark">Delete</a>
                 <a href="/completegoal/{{_id}}" class="btn btn-rounded float-right btn-outline-dark">Complete</a>
+                 {{/achieved}}
+                 {{#achieved}}
+                    <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
+                 {{/achieved}}
             </div></div>
     </div>
 
