@@ -1,6 +1,7 @@
 const { rejects } = require('assert');
 const nedb = require('nedb');
 const { resolve } = require('path');
+const weeks = require('weeknumber');
 
 class Goals{
 constructor(dbFilePath) {
@@ -179,7 +180,9 @@ getGoal(id){
 }
 
 addGoal(user, exercise, details, endDate) {
-console.log('attempting to add', user, exercise, details, endDate);
+    var weekNumber = weeks.weekNumber(endDate);
+    console.log(weekNumber);
+console.log('attempting to add', user, exercise, details, endDate, weekNumber);
 var goal = {
     user: user,
     exercise: exercise,

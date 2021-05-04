@@ -2,6 +2,8 @@ const express = require('express');
 
 const path = require('path');
 
+const weeks = require('weeknumber');
+
 const nedb = require('nedb');
 
 const router = require('./routes/exerciseRoutes');
