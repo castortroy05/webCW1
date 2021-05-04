@@ -180,7 +180,7 @@ getGoal(id){
 }
 
 addGoal(user, exercise, details, endDate) {
-    dueWeek = weekNumber(endDate);
+    var dueWeek = weekNumber(endDate);
     console.log(dueWeek);
 console.log('attempting to add', user, exercise, details, endDate, dueWeek);
 var goal = {
