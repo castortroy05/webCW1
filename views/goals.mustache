@@ -18,9 +18,12 @@
             <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
                 <div class="card-header text-center shadow-sm text-capitalize">
                     <h2 class="text-lg">{{exercise}}</h2>
-                <div class="card-subtitle text-sm text-capitalize">
+               {{^achieved}}
+                    <div class="card-subtitle text-sm text-capitalize">
                     To be completed by {{endDate}}
-                </div></div>
+                </div>
+                {{/achieved}}
+            </div>
                 <div class="card-body bg-light text-capitalize">
                  <p class="card-text" style="min-height: 5rem;">
                 {{details}}
