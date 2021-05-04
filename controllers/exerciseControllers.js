@@ -70,6 +70,7 @@ exports.landing_page = function(req, res) {
     
     }
     else{
+        let user = req.oidc.user;
     console.log('basic landing page after login with ', user);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
