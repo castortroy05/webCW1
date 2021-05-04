@@ -65,17 +65,18 @@ exports.landing_page = function(req, res) {
     {
     
     }
-    console.log('basic landing page login');
-     db.getAllGoals().then((list) => {
+    else{
+    console.log('basic landing page after login with ', user);
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
-            'title': 'Home Page',
-            'goals': list, 
-            'user': req.oidc.user
+            'title': 'Exercise Goals',
+            'goals': list,
+            'user': req.oidc.user.nickname, 
         });
         console.log('Promise Resolved');
     }).catch((err)=>{
         console.log('Promise Rejected ', err);
-    });
+    });}
 };
 
 exports.incomplete_goals = function(req, res) {
