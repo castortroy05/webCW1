@@ -2,7 +2,7 @@ const express = require('express');
 
 const path = require('path');
 
-const weeks = require('weeknumber');
+const weekNumber = require('current-week-number');
 
 const nedb = require('nedb');
 

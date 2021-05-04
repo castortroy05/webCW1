@@ -52,11 +52,12 @@ router.post('/edit/:id', requiresAuth(), controller.post_update_goal);
 
 router.get('/share/:id', requiresAuth(), controller.share_goal);
 
-router.use(function( req, res) {
+router.use(function(err, req, res) {
     res.render('error', {
         'title': 'Error Page',
         'status': 404,
-        'message': 'Page not found'
+        'message': 'Page not found',
+        'error': err,
         
     });
     res.status(404);
