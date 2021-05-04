@@ -15,6 +15,7 @@ router.get('/profile', requiresAuth(), (req, res) => {
         'name': req.oidc.user.name,
         'email': req.oidc.user.email,
         'updated': req.oidc.user.updated_at,
+        'user': req.oidc.user.nickname, 
 
         
     });
@@ -51,7 +52,7 @@ router.use(function( req, res) {
     res.render('error', {
         'title': 'Error Page',
         'status': 404,
-        'message': 'Page not found',
+        'message': 'Page not found'
         
     });
     res.status(404);

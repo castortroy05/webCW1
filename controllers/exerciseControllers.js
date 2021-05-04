@@ -88,7 +88,8 @@ exports.incomplete_goals = function(req, res) {
     db.getAllIncompleteGoals().then((list) => {
        res.render('goals', {
            'title': 'Incomplete Goals',
-           'goals': list
+           'goals': list,
+           'user': req.oidc.user.nickname, 
        });
        console.log('Promise Resolved');
    }).catch((err)=>{
@@ -114,7 +115,8 @@ exports.completed_goals = function(req, res) {
     db.getAllCompletedGoals().then((list) => {
        res.render('goals', {
            'title': 'Completed Goals',
-           'goals': list
+           'goals': list,
+           'user': req.oidc.user.nickname, 
        });
        console.log('Promise Resolved');
    }).catch((err)=>{
@@ -157,7 +159,8 @@ exports.edit_goal = function(req, res){
     db.getGoal(goal).then((goals) => {
         res.render('editGoal', {
             'title': 'Edit Goal',
-            'goals': goals
+            'goals': goals,
+            'user': req.oidc.user.nickname, 
         });
     }).catch((err) => {
         console.log('error handling goal ', err);
@@ -187,7 +190,8 @@ exports.share_goal = function(req, res){
 };
 
 exports.new_goal = function(req, res) {
-    res.render('newGoal', { 'title': 'Add a new goal'});
+    res.render('newGoal', { 'title': 'Add a new goal',
+    'user': req.oidc.user.nickname, });
     
 };
 
