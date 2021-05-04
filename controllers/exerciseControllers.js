@@ -63,6 +63,7 @@ exports.landing_page = function(req, res) {
 
     if(!req.oidc.user)
     {
+        console.log('basic landing page after login with no user');
         res.render('goals', {
             'title': 'Exercise Goals' 
         });
