@@ -12,13 +12,10 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
       
-        <div class="container gy-5" style="background-color: darkgray; padding: auto;">
-                
-                    <div class="row gy-5" style="padding: 5px; background-color: aqua; border-radius: 5%;">
-                        <div class="col-12 p-3">
-                            <h2>
-                                {{title}}
-                            </h2>
+        <div class="container bg-dark shadow-lg border-light gy-5" style="background-color: darkgray; border-radius: 10px; padding: auto;">
+                <div class="row gy-5" style="padding: 5px; ;">
+                        <div class="col-12 p-3 text-light text-capitalize">
+                            <h2>{{title}}</h2>
                             <p>
                                 <h3>Hello {{user}} </h3>
                                 {{^goals}}
@@ -38,7 +35,7 @@
          </br>
             </br>
         </br>
-        <div class="container gy-5" style="background-color: blueviolet; padding: auto;">
+        <div class="container gy-5 bg-dark shadow-lg border-light" style="border-radius: 10px; padding: auto;">
                  <div class="row gy-5 p-5" style="padding: 5px;;">
                         <div class="col-6 p-3" style="position: left; padding: 10px;">
                             <div class="card bg-success shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
@@ -55,7 +52,7 @@
                                  </div></div>
                             </div>
                         </div>
-                        <div class="col-6 p3" style="position: right; padding: 10px;">
+                        <div class="col-6 offset-5 p3" style="position: right; padding: 10px;">
                             <div class="card bg-warning shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
                                 <h5 class="card-header text-center shadow-sm text-capitalize">
                                     Incomplete Goals
@@ -73,6 +70,7 @@
                     </div>
             </div>
         </br>
+    </br>
         <div class="container gy-5" style="background-color:darksalmon ; padding: auto;">
             <div class="row gy-5">
                 <div class="col-12">
