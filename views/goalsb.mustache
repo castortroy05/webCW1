@@ -7,29 +7,30 @@
     <head>
        {{>header}}
     </head>
-    <body class ="container-fluid" style="background-color:#76A5AF; margin-top: 20%;">
+    <body class ="container-fluid" style="background-color:#76A5AF; margin-top:50px;">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
       
-        
+        <div class="container" style="background-color: darkgray; padding: auto;">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
+                    <div class="row" style="padding: 5px; background-color: aqua;">
                         <div class="col-md-12">
                             <h2>
                                 {{title}}
                             </h2>
                             <p>
-                                {{^goals}}
                                 <h3>Hello {{user}} </h3>
+                                {{^goals}}
+                                
                                 No goals yet.
 
                                 Please add some goals
                                 {{/goals}}
                             </p>
                             <p>
-                                <a class="btn" href="#">View details »</a>
+                                
                             </p>
                         </div>
                     </div>
@@ -39,8 +40,8 @@
                                 <h5 class="card-header text-center shadow-sm text-capitalize">
                                     Complete Goals
                                 </h5>
-                                <div class="card-body">
-                                    <p class="card-text text-xxl-center">
+                                <div class="card-body bg-dark">
+                                    <p class="text-white text-xxl-center">
                                         5
                                     </p>
                                 </div>
@@ -56,8 +57,8 @@
                                 <h5 class="card-header text-center shadow-sm text-capitalize">
                                     Incomplete Goals
                                 </h5>
-                                <div class="card-body">
-                                    <p class="card-text text-xxl-center">
+                                <div class="card-body bg-dark">
+                                    <p class="text-xxl-center text-white">
                                         5
                                     </p>
                                 </div>
@@ -114,7 +115,7 @@
                 </div>
             </div>
         
-
+        </div>
 
    
                                    
