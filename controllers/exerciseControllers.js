@@ -21,7 +21,7 @@ exports.goals_list = function(req, res) {
 exports.user_goals_list = function(req, res) {
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
-        res.render('goals', {
+        res.render('goalsb', {
             'title': 'Exercise Goals',
             'goals': list,
             'user': req.oidc.user.nickname, 
