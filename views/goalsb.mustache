@@ -13,9 +13,9 @@
         <![endif]-->
       
         <div class="container gy-5" style="background-color: darkgray; padding: auto;">
-                <div class="col-lg-12 p-3">
+                
                     <div class="row gy-5" style="padding: 5px; background-color: aqua; border-radius: 5%;">
-                        <div class="col-lg-12 p-3">
+                        <div class="col-12 p-3">
                             <h2>
                                 {{title}}
                             </h2>
@@ -33,11 +33,14 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            
-            
-                 <div class="row gy-5" style="padding: 5px; background-color: blueviolet;">
-                        <div class="col-6 p-3" style="padding: 10px;">
+                </br>
+        </div>
+         </br>
+            </br>
+        </br>
+        <div class="container gy-5" style="background-color: blueviolet; padding: auto;">
+                 <div class="row gy-5 p-5" style="padding: 5px;;">
+                        <div class="col-6 p-3" style="position: left; padding: 10px;">
                             <div class="card bg-success shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
                                 <h5 class="card-header text-center shadow-sm text-capitalize">
                                     Complete Goals
@@ -52,7 +55,7 @@
                                  </div></div>
                             </div>
                         </div>
-                        <div class="col-6 p3" style="padding: 10px;">
+                        <div class="col-6 p3" style="position: right; padding: 10px;">
                             <div class="card bg-warning shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
                                 <h5 class="card-header text-center shadow-sm text-capitalize">
                                     Incomplete Goals
@@ -68,16 +71,11 @@
                             </div>
                         </div>
                     </div>
-                
-
-            
-                
             </div>
         </br>
-            
+        <div class="container gy-5" style="background-color:darksalmon ; padding: auto;">
             <div class="row gy-5">
-                <div class="col-lg-12">
-
+                <div class="col-12">
                     <div class ="justify-content-center card-group gap-3">
                         {{#goals}}        
                             <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
@@ -114,6 +112,7 @@
                 
                         <hr>
                         {{/goals}}</div> 
+                </div>
 
                 </div>
             </div>
