@@ -190,6 +190,7 @@ var goal = {
     endDate: endDate,
     started: new Date().toISOString().split('T')[0],
     achieved: false,
+    weekNo: dueWeek,
     overdue: false,
     colour: 'warning'
 
