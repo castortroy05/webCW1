@@ -7,8 +7,8 @@ const db = new GoalsDAO('newgoals.db');
 
 
 exports.goals_list = function(req, res) {
-    db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
-    db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
+    var completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
+    var incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
@@ -25,8 +25,8 @@ exports.goals_list = function(req, res) {
 };
 
 exports.user_goals_list = function(req, res) {
-    db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
-    db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
+    var completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
+    var incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
         res.render('goalsb', {
@@ -94,8 +94,8 @@ exports.landing_page = function(req, res) {
     else{
         let user = req.oidc.user;
     console.log('basic landing page after login with ', user);
-    db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
-    db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
+    var completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
+    var incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
             'title': 'Exercise Goals',
@@ -111,8 +111,8 @@ exports.landing_page = function(req, res) {
 };
 
 exports.incomplete_goals = function(req, res) {
-    db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
-    db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
+    var completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
+    var incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
     db.getAllIncompleteGoals().then((list) => {
        res.render('goals', {
            'title': 'Incomplete Goals',
@@ -128,8 +128,8 @@ exports.incomplete_goals = function(req, res) {
 };
 
 exports.user_incomplete_goals_list = function(req, res) {
-    db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
-    db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
+    var completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
+    var incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserIncompleteGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
@@ -146,8 +146,8 @@ exports.user_incomplete_goals_list = function(req, res) {
 };
 
 exports.completed_goals = function(req, res) {
-    db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
-    db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
+    var completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount);
+    var incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount);
     console.log(completeGoalscount, incompleteGoalsCount)
     db.getAllCompletedGoals().then((list) => {
        res.render('goals', {
