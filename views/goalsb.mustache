@@ -7,36 +7,34 @@
     <head>
        {{>header}}
     </head>
-    <body class ="container" style="background-color:#76A5AF; ">
+    <body class ="container" style="background-color:slategrey; ">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    
-        <div class="container shadow-lg border-light" style="background-color: gray; border-radius: 10px;">
+        {{^goals}}
+        <div class="container shadow-lg border-light" style="background-color: #76A5AF; border-radius: 10px;">
                 <div class="row gy-5" style="padding: 5px; ;">
                         <div class="col-12 p-3 text-light text-lg-center text-capitalize">
                             <p>
-                                {{^goals}}
+                                
                                 No goals yet.
                                 Please add some goals
-                                {{/goals}}
-                            </p>
-                            <p>
                                 
                             </p>
                         </div>
                     </div>
                 </br>
         </div>
-         </br>
-            </br>
+        {{/goals}}
+         
         </br>
-        <div class="container shadow-lg border-light" style="background-color: gray; border-radius: 10px; padding: auto;">
-                 <div class="row gy-5 " style="padding: 5px;;">
-                        <div class="col-6 p-3" style="padding: 10px;">
-                            <div class="card bg-success shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
-                                <h5 class="card-header text-center shadow-sm text-capitalize">
-                                    Complete Goals
+        {{#user}}
+        <div class="container shadow-lg " style="background-color: #76A5AF; border-color: black; border-radius: 10px; padding: auto;">
+                 <div class="row " style="padding: 5px;;">
+                    <div class ="card-group justify-content-xl-evenly">
+                            <div class="card ps-0 shadow-lg" style="background-color:darkseagreen; min-height: 7rem; min-width: 16rem; max-width: fit-content; border-radius:5%">
+                                <h5 class="card-header text-center text-capitalize">
+                                      Complete Goals
                                 </h5>
                                 <div class="card-body" style="min-height: max-content;" >
                                     <h1 class="card-title text-center">{{completedgoalscount}}</h1>
@@ -47,33 +45,35 @@
                                      <a href="/new" class="btn btn-rounded float-right btn-outline-dark">Add New</a>
                                  </div></div>
                             </div>
-                        </div>
-                        <div class="col-6" style="padding: 10px;">
-                            <div class="card bg-warning shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
-                                <h5 class="card-header text-center shadow-sm text-capitalize">
+                        
+                        
+                            <div class="card bg-warning shadow-lg" style="border-color: black; min-height: 7rem; min-width: 16rem; max-width: fit-content; border-radius:5%">
+                                <h5 class="card-header text-center text-capitalize">
                                     Incomplete Goals
                                 </h5>
                                 <div class="card-body" style="min-height: max-content;" >
                                     <h1 class="card-title text-center">{{incompletegoalscount}}</h1>
                                 </div>
+                                
                                 <div class="card-footer text-center">
                                     <div class="btn-group btn-group-sm shadow-lg">
                                      <a href="incompletegoals" class="btn btn-rounded float-left btn-outline-dark">View All</a>
                                      <a href="/new" class="btn btn-rounded float-right btn-outline-dark">Add New</a>
                                  </div></div>
                             </div>
-                        </div>
-                    </div>
+                        
+                 </div>
             </div>
+        </div>
         </br>
             </br>
         </br>
-        <div class="container bg-light shadow-lg" style="border-radius: 10px ;">
+        <div class="container shadow-lg" style="background-color: #76A5AF; border-radius: 10px ;">
             <div class="row gy-5">
                 <div class="col-12 g-5">
                     <div class ="justify-content-center card-group gap-3">
                         {{#goals}}        
-                            <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
+                            <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
                                 <div class="card-header text-center shadow-sm text-capitalize">
                                     <h2 class="text-lg">{{exercise}}</h2>
                                {{^achieved}}
@@ -92,7 +92,7 @@
                             </ul>
                             <div class="card-footer text-center">
                                <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
-                               <div class="btn-group btn-group-lg shadow-lg">
+                               <div class="btn-group btn-group shadow-lg">
                                    {{^achieved}}
                                 <a href="/edit/{{_id}}" class="btn btn-rounded float-left btn-outline-dark">Edit</a>
                                 <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
@@ -114,7 +114,7 @@
                 </div>
             </br></br>
             </div>
-
+            {{/user}}
         </br>
             </br>
         </br>

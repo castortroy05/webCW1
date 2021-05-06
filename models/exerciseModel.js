@@ -22,7 +22,7 @@ init() {
         details: '1000 squats',
         started: '2020-02-16',
         endDate: '2020-03-17',
-        user: 'Peter',
+        user: 'antony.lockhart',
         achieved: false,
         colour: warning
 
@@ -37,7 +37,7 @@ init() {
             details: '5 Km walk',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            user: 'Katrin',
+            user: 'antony.lockhart',
             achieved: false,
             colour: 'warning'
     
@@ -50,7 +50,7 @@ init() {
             details: '10 Km jog',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            user: 'James',
+            user: 'antony.lockhart',
             achieved: false,
             colour: 'warning'
     
@@ -63,7 +63,7 @@ init() {
             details: '15 Km run',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            user: 'Joshua',
+            user: 'antony.lockhart',
             achieved: false,
             colour: 'warning'
     
@@ -76,7 +76,7 @@ init() {
             details: '150m Free Climb',
             started: '2020-03-16',
             endDate: '2020-03-17',
-            user: 'Sam',
+            user: 'antony.lockhart',
             achieved: true,
             colour: 'success'
     
@@ -185,7 +185,7 @@ getCompleteGoalCount(user){
             if (err){
             reject(err);
              } else {
-        resolve(goals);
+        resolve(goals.toString());
         console.log('function getCompleteGoalCount() returns ', goals);
     }   
     });
@@ -198,7 +198,7 @@ getIncompleteGoalCount(user){
             if (err){
             reject(err);
              } else {
-        resolve(goals);
+        resolve(goals.toString());
         console.log('function getIncompleteGoalCount(user) returns ', goals);
     }   
     });

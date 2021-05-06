@@ -14,13 +14,16 @@ const app = express();
 
 const { auth } = require('express-openid-connect');
 
+
 const config = {
   authRequired: false,
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
+  //baseURL: 'http://localhost:8080',
   baseURL: 'https://goalgettergcu.herokuapp.com',
   clientID: 'awkkwd43YvCe0dpdwDA48qGRoN62V00X',
   issuerBaseURL: 'https://castortroy.eu.auth0.com'
+
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL

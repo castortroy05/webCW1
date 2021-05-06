@@ -7,10 +7,14 @@ const db = new GoalsDAO('newgoals.db');
 
 
 exports.goals_list = function(req, res) {
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
-    console.log('logged in as ', req.oidc.user.nickname);
+    
+    console.log('logged in as ', req.oidc.user.nickname, cgc, icgc);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
+
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
         res.render('goals', {
             'title': 'Exercise Goals',
             'goals': list,
@@ -25,10 +29,14 @@ exports.goals_list = function(req, res) {
 };
 
 exports.user_goals_list = function(req, res) {
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
+
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
+
         res.render('goalsb', {
             'title': 'Exercise Goals',
             'goals': list,
@@ -94,10 +102,13 @@ exports.landing_page = function(req, res) {
     else{
         let user = req.oidc.user;
     console.log('basic landing page after login with ', user);
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
-        res.render('goals', {
+
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
+        res.render('goalsb', {
             'title': 'Exercise Goals',
             'goals': list,
             'user': req.oidc.user.nickname,
@@ -111,10 +122,13 @@ exports.landing_page = function(req, res) {
 };
 
 exports.incomplete_goals = function(req, res) {
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
     db.getAllIncompleteGoals().then((list) => {
-       res.render('goals', {
+
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
+       res.render('goalsb', {
            'title': 'Incomplete Goals',
            'goals': list,
            'user': req.oidc.user.nickname,
@@ -131,7 +145,12 @@ exports.user_incomplete_goals_list = function(req, res) {
     
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserIncompleteGoals(req.oidc.user.nickname).then((list) => {
-        res.render('goals', {
+
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
+        res.render('goalsb', {
             'title': 'Exercise Goals',
             'goals': list,
             'user': req.oidc.user.nickname,
@@ -145,11 +164,14 @@ exports.user_incomplete_goals_list = function(req, res) {
 };
 
 exports.completed_goals = function(req, res) {
-    let completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname);
-    let incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname);
-    console.log(completeGoalscount, incompleteGoalsCount);
+    
     db.getAllCompletedGoals().then((list) => {
-       res.render('goals', {
+
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
+       res.render('goalsb', {
            'title': 'Completed Goals',
            'goals': list,
            'user': req.oidc.user.nickname,
@@ -163,11 +185,14 @@ exports.completed_goals = function(req, res) {
 };
 
 exports.user_completed_goals_list = function(req, res) {
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserCompletedGoals(req.oidc.user.nickname).then((list) => {
-        res.render('goals', {
+
+        list1 = list.filter(goal => (goal.achieved));
+        list2 = list.filter(goal => (!goal.achieved));
+        var completeGoalsCount = Object.keys(list1).length;
+        var incompleteGoalsCount = Object.keys(list2).length;
+        res.render('goalsb', {
             'title': 'Exercise Goals',
             'goals': list,
             'user': req.oidc.user.nickname,
@@ -226,7 +251,7 @@ exports.complete_goal = function(req, res){
 
     exports.goals_list = function(req, res) {
     db.getAllGoals().then((list) => {
-        res.render('goals', {
+        res.render('goalsb', {
             'title': 'Exercise Goals',
             'goals': list,
             'user': req.user
