@@ -181,12 +181,12 @@ getGoal(id){
 
 getCompleteGoalCount(user){
     return new Promise((resolve, reject) => {
-        this.db.count({user: user, achieved:false}, function(err, goals){
+        this.db.count({user: user, achieved:true}, function(err, goals){
             if (err){
             reject(err);
              } else {
         resolve(goals);
-        console.log('function getGoal() returns ', goals);
+        console.log('function getCompleteGoalCount() returns ', goals);
     }   
     });
     });
@@ -199,7 +199,7 @@ getIncompleteGoalCount(user){
             reject(err);
              } else {
         resolve(goals);
-        console.log('function getGoal() returns ', goals);
+        console.log('function getIncompleteGoalCount(user) returns ', goals);
     }   
     });
     });
