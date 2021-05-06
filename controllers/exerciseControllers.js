@@ -4,13 +4,18 @@ const GoalsDAO = require('../models/exerciseModel');
 
 const db = new GoalsDAO('newgoals.db');
 
+const completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname);
+const incomleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname);
+
 exports.goals_list = function(req, res) {
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
             'title': 'Exercise Goals',
             'goals': list,
-            'user': req.oidc.user.nickname, 
+            'user': req.oidc.user.nickname,
+            'completedgoalscount': completeGoalsCount,
+            'incompletegoalscount': incomleteGoalsCount, 
         });
         console.log('Promise Resolved');
     }).catch((err)=>{

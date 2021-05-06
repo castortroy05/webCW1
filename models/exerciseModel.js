@@ -179,6 +179,31 @@ getGoal(id){
     });
 }
 
+getCompleteGoalCount(user){
+    return new Promise((resolve, reject) => {
+        this.db.count({user: user, achieved:false}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function getGoal() returns ', goals);
+    }   
+    });
+    });
+}
+
+getIncompleteGoalCount(user){
+    return new Promise((resolve, reject) => {
+        this.db.count({user: user, achieved:false}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+        console.log('function getGoal() returns ', goals);
+    }   
+    });
+    });
+}
 addGoal(user, exercise, details, endDate) {
     var dueWeek = weekNumber(endDate);
     console.log(dueWeek);
@@ -207,6 +232,9 @@ this.db.insert(goal, function(err, doc) {
     }
 });
 }
+
+
+
 
 updateGoal(id, exercise, details, endDate) {
     console.log('attempting to update', exercise, details, endDate, ' to post id ', id);
