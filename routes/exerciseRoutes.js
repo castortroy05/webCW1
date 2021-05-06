@@ -27,7 +27,7 @@ router.get('/goals', requiresAuth(), controller.user_goals_list);
 
 router.get('/incompletegoals', requiresAuth(), controller.user_incomplete_goals_list);
 
-router.get('/incompletegoals', requiresAuth(), controller.user_incomplete_goals_list);
+router.get('/completedgoals', requiresAuth(), controller.user_completed_goals_list);
 
 router.get('/overduegoals', requiresAuth(), controller.user_overdue_goals_list);
 
@@ -48,6 +48,10 @@ router.get('/edit/:id', requiresAuth(), controller.edit_goal);
 router.get('/completegoal/:id', requiresAuth(), controller.complete_goal);
 
 router.post('/completegoal/:id', requiresAuth(), controller.post_complete_goal);
+
+router.get('/sharegoal/:id', requiresAuth(), controller.share_goal);
+
+router.post('/sharegoal/:id', requiresAuth(), controller.post_share_goal);
 
 router.get('/posts/:user', requiresAuth(), controller.user_goals_list);
 

@@ -101,6 +101,17 @@ exports.post_complete_goal = function(req, res) {
     
 };
 
+exports.post_complete_goal = function(req, res) {
+    if (!req.oidc.user.nickname) {
+        response.status(400).send("Entries must have a user.");
+        return;
+    }  
+        console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
+       db.completeGoal(req.params.id);
+        res.redirect('/');
+    
+};
+
 exports.landing_page = function(req, res) {
 
     if(!req.oidc.user)
@@ -368,7 +379,19 @@ exports.about_page = function(req, res) {
 };
 
 exports.share_goal = function(req, res){
-    res.send('<h1>Not yet implemented: share the goal</h1>');
+    console.log('sharing goal with id ', req.params.id);
+    let goal = req.params.id;
+    let user = req.oidc.user;
+    db.getGoal(goal).then((goals) => {
+        res.render('shareGoal', {
+            'title': 'Share Goal',
+            'goals': goals,
+            'user': user.nickname, 
+            'from': user.email,
+        });
+    }).catch((err) => {
+        console.log('error handling goal ', err);
+    });
 };
 
 exports.new_goal = function(req, res) {
