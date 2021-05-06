@@ -128,8 +128,7 @@ exports.incomplete_goals = function(req, res) {
 };
 
 exports.user_incomplete_goals_list = function(req, res) {
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
+    
     console.log('logged in as ', req.oidc.user.nickname);
     db.getUserIncompleteGoals(req.oidc.user.nickname).then((list) => {
         res.render('goals', {
@@ -146,8 +145,8 @@ exports.user_incomplete_goals_list = function(req, res) {
 };
 
 exports.completed_goals = function(req, res) {
-    var completeGoalsCount = JSON.stringify(db.getCompleteGoalCount(req.oidc.user.nickname).then(completeGoalsCount));
-    var incompleteGoalsCount = JSON.stringify(db.getIncompleteGoalCount(req.oidc.user.nickname).then(incompleteGoalsCount));
+    let completeGoalsCount = db.getCompleteGoalCount(req.oidc.user.nickname);
+    let incompleteGoalsCount = db.getIncompleteGoalCount(req.oidc.user.nickname);
     console.log(completeGoalscount, incompleteGoalsCount);
     db.getAllCompletedGoals().then((list) => {
        res.render('goals', {
