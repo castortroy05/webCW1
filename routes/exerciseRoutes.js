@@ -10,6 +10,7 @@ const { requiresAuth } = require('express-openid-connect');
 
 router.get('/profile', requiresAuth(), (req, res) => {
     res.render('profile', {
+        'title': 'User Profile',
         'picture': req.oidc.user.picture,
         'nickname': req.oidc.user.nickname,
         'name': req.oidc.user.name,
@@ -24,9 +25,11 @@ router.get('/profile', requiresAuth(), (req, res) => {
 
 router.get('/goals', requiresAuth(), controller.user_goals_list);
 
-router.get('/incompletegoals', controller.user_incomplete_goals_list);
+router.get('/incompletegoals', requiresAuth(), controller.user_incomplete_goals_list);
 
-router.get('/completedgoals', controller.user_completed_goals_list);
+router.get('/incompletegoals', requiresAuth(), controller.user_incomplete_goals_list);
+
+router.get('/overduegoals', requiresAuth(), controller.user_overdue_goals_list);
 
 router.get('/new', requiresAuth(), controller.new_goal);
 

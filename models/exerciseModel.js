@@ -18,13 +18,15 @@ constructor(dbFilePath) {
 //a function to load some data into the database
 init() {
     this.db.insert({
-        exercise: 'squats',
-        details: '1000 squats',
-        started: '2020-02-16',
-        endDate: '2020-03-17',
         user: 'antony.lockhart',
-        achieved: false,
-        colour: warning
+            exercise: 'More Testing',
+            details: 'More testing',
+            endDate: '2021-05-12',
+            started: '2021-05-06',
+            achieved: false,
+            weekNo: 19,
+            overdue: false,
+            colour: 'warning',
 
     });
     // terminal notification for later debugging
@@ -33,56 +35,64 @@ init() {
 }
     seedDb() {
         this.db.insert({
-            exercise: 'Walking',
-            details: '5 Km walk',
-            started: '2020-03-16',
-            endDate: '2020-03-17',
             user: 'antony.lockhart',
+            exercise: 'Testing 1',
+            details: 'More testing',
+            endDate: '2021-04-12',
+            started: '2021-04-06',
             achieved: false,
-            colour: 'warning'
+            weekNo: 15,
+            overdue: false,
+            colour: 'warning',
     
         });
         // terminal notification for later debugging
-        console.log('db entry Katrin inserted');
+        console.log('db entry Testing 1 inserted');
 
         this.db.insert({
-            exercise: 'Jogging',
-            details: '10 Km jog',
-            started: '2020-03-16',
-            endDate: '2020-03-17',
             user: 'antony.lockhart',
+            exercise: 'Testing 2',
+            details: 'More testing',
+            endDate: '2021-03-12',
+            started: '2021-03-06',
             achieved: false,
-            colour: 'warning'
+            weekNo: 11,
+            overdue: false,
+            colour: 'warning',
     
         });
         // terminal notification for later debugging
-        console.log('db entry James inserted');
+        console.log('db entry Testing 2 inserted');
 
         this.db.insert({
-            exercise: 'Running',
-            details: '15 Km run',
-            started: '2020-03-16',
-            endDate: '2020-03-17',
             user: 'antony.lockhart',
+            exercise: 'Testing 3',
+            details: 'More testing',
+            endDate: '2021-05-12',
+            started: '2021-05-06',
             achieved: false,
-            colour: 'warning'
+            weekNo: 19,
+            overdue: false,
+            colour: 'warning',
     
         });
         // terminal notification for later debugging
-        console.log('db entry Joshua inserted');
+        console.log('db entry Testing 3 inserted');
 
         this.db.insert({
-            exercise: 'Climbing',
-            details: '150m Free Climb',
-            started: '2020-03-16',
-            endDate: '2020-03-17',
             user: 'antony.lockhart',
-            achieved: true,
-            colour: 'success'
+            exercise: 'Testing 4',
+            details: 'More testing',
+            endDate: '2021-05-12',
+            started: '2021-05-06',
+            achieved: false,
+            weekNo: 19,
+            overdue: false,
+            colour: 'warning',
     
         });
         // terminal notification for later debugging
-        console.log('db entry Sam inserted');
+        console.log('db entry Testing 4 inserted');
 
 
 }
@@ -261,6 +271,17 @@ updateGoal(id, exercise, details, endDate) {
         });
         }
 
+        overdueGoals(date) {
+            console.log('attempting to mark goals as overdue as they are due before ', date);
+            // console.log('goal created', goal);
+            this.db.update({endDate: {$lte: date}},{$set: { overdue: true, colour: 'danger' }}, function(err, doc) {
+                if (err) {
+                    console.log('Error updating goals', err);
+                } else {
+                    console.log('document updated in the database', doc);
+                }
+            });
+            }
 
 
 deleteGoal(goalId){

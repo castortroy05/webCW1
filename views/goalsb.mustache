@@ -7,12 +7,12 @@
     <head>
        {{>header}}
     </head>
-    <body class ="container" style="background-color:slategrey; ">
+    <body class ="container" style="background-color:darkslateblue; ">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         {{^goals}}
-        <div class="container shadow-lg border-light" style="background-color: #76A5AF; border-radius: 10px;">
+        <div class="container shadow-lg border-light" style="background-color: #3d598b; border-radius: 10px;">
                 <div class="row gy-5" style="padding: 5px; ;">
                         <div class="col-12 p-3 text-light text-lg-center text-capitalize">
                             <p>
@@ -29,10 +29,10 @@
          
         </br>
         {{#user}}
-        <div class="container shadow-lg " style="background-color: #76A5AF; border-color: black; border-radius: 10px; padding: auto;">
+        <div class="container-fluid" style="background-color: transparent;  border-radius: 10px; padding: auto;">
                  <div class="row " style="padding: 5px;;">
                     <div class ="card-group justify-content-xl-evenly">
-                            <div class="card ps-0 shadow-lg" style="background-color:darkseagreen; min-height: 7rem; min-width: 16rem; max-width: fit-content; border-radius:5%">
+                            <div class="card shadow" style=" background-color:darkseagreen; min-height: 7rem; min-width: 15rem; max-width: fit-content; border-radius:5%">
                                 <h5 class="card-header text-center text-capitalize">
                                       Complete Goals
                                 </h5>
@@ -40,14 +40,28 @@
                                     <h1 class="card-title text-center">{{completedgoalscount}}</h1>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <div class="btn-group btn-group-sm shadow-lg">
-                                     <a href="completedgoals" class="btn btn-rounded float-left btn-outline-dark">View All</a>
-                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">Add New</a>
+                                    <div class="btn-group rounded-pill btn-group-sm shadow-lg">
+                                     <a href="completedgoals" class="btn btn-rounded float-left btn-outline-dark">View Complete</a>
+                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">New Goal</a>
+                                 </div></div>
+                            </div>
+
+                            <div class="card  shadow" style=" background-color:palevioletred ; min-height: 7rem; min-width: 15rem; max-width: fit-content; border-radius:5%">
+                                <h5 class="card-header text-center text-capitalize">
+                                      Overdue Goals
+                                </h5>
+                                <div class="card-body" style="min-height: max-content;" >
+                                    <h1 class="card-title text-center">{{overduegoalscount}}</h1>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="btn-group rounded-pill btn-group-sm shadow-lg">
+                                     <a href="overduegoals" class="btn btn-rounded float-left btn-outline-dark">View Overdue</a>
+                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">New Goal</a>
                                  </div></div>
                             </div>
                         
                         
-                            <div class="card bg-warning shadow-lg" style="border-color: black; min-height: 7rem; min-width: 16rem; max-width: fit-content; border-radius:5%">
+                            <div class="card shadow" style="background-color:goldenrod; min-height: 7rem; min-width: 15rem; max-width: fit-content; border-radius:5%">
                                 <h5 class="card-header text-center text-capitalize">
                                     Incomplete Goals
                                 </h5>
@@ -56,9 +70,9 @@
                                 </div>
                                 
                                 <div class="card-footer text-center">
-                                    <div class="btn-group btn-group-sm shadow-lg">
-                                     <a href="incompletegoals" class="btn btn-rounded float-left btn-outline-dark">View All</a>
-                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">Add New</a>
+                                    <div class="btn-group rounded-pill btn-group-sm shadow-lg">
+                                     <a href="incompletegoals" class="btn btn-rounded float-left btn-outline-dark">View Incomplete</a>
+                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">New Goal</a>
                                  </div></div>
                             </div>
                         
@@ -68,17 +82,31 @@
         </br>
             </br>
         </br>
-        <div class="container shadow-lg" style="background-color: #76A5AF; border-radius: 10px ;">
+        <div class="container shadow-lg" style="background-color: #3d598b; border-radius: 10px ;">
             <div class="row gy-5">
                 <div class="col-12 g-5">
                     <div class ="justify-content-center card-group gap-3">
-                        {{#goals}}        
-                            <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                        {{#goals}}  
+                            {{^achieved}}
+                            {{^overdue}}
+                            <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:goldenrod; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                             {{/overdue}}  
+                             {{#overdue}}
+                             <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:palevioletred; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                             {{/overdue}}
+                             {{/achieved}}
+                             {{#achieved}}
+                             <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:darkseagreen; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                            {{/achieved}}
+                             
+                             
+
+                                
                                 <div class="card-header text-center shadow-sm text-capitalize">
-                                    <h2 class="text-lg">{{exercise}}</h2>
+                                    <h2 class="text-lg  ">{{exercise}}</h2>
                                {{^achieved}}
                                     <div class="card-subtitle text-sm text-capitalize">
-                                    To be completed by {{endDate}}
+                                    Due by {{endDate}}
                                 </div>
                                 {{/achieved}}
                                 {{#achieved}}
@@ -87,21 +115,27 @@
                                 </div>
                                 {{/achieved}}
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item text-white text-capitalize bg-dark">{{details}}</li>
-                            </ul>
+                            
+                                <div class="card-body text-capitalize" >{{details}}</div>
+                            
                             <div class="card-footer text-center">
                                <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
-                               <div class="btn-group btn-group shadow-lg">
+                               <div class="btn-group rounded shadow">
                                    {{^achieved}}
-                                <a href="/edit/{{_id}}" class="btn btn-rounded float-left btn-outline-dark">Edit</a>
-                                <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
+                                   {{^overdue}}
+                                <a href="/edit/{{_id}}" class="btn float-left btn-outline-dark">Edit</a>
+                                <a href="/share/{{_id}}" class="btn btn-outline-dark">Share</a>
+                                <a href="/delete/{{_id}}" class="btn btn-outline-dark">Delete</a> 
+                                <a href="/completegoal/{{_id}}" class="btn float-right btn-outline-dark">Complete</a>
+                                {{/overdue}}
+                                {{#overdue}}
                                 <a href="/delete/{{_id}}" class="btn btn-rounded btn-outline-dark">Delete</a>
-                                <a href="/completegoal/{{_id}}" class="btn btn-rounded float-right btn-outline-dark">Complete</a>
-                                 {{/achieved}}
+                                {{/overdue}}
+                                {{/achieved}}
                                  {{#achieved}}
                                     <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
                                  {{/achieved}}
+                                
                             </div></div>
                     </div>
                 

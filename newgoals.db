@@ -1,10 +1,4 @@
-{"exercise":"Jogging","details":"10 Km jog","started":"2020-03-16","endDate":"2020-03-17","user":"James","achieved":false,"colour":"warning","_id":"0ILbKtExRiHMuyvo"}
-{"exercise":"Walking","details":"5 Km walk","started":"2020-03-16","endDate":"2020-03-17","user":"antony.lockhart","achieved":false,"colour":"warning","_id":"3dPQPPDRuy0NsaMJ"}
-{"user":"antony.lockhart","exercise":"Testing","details":"This is a test","endDate":"2021-05-12","started":"2021-05-06","achieved":false,"weekNo":19,"overdue":false,"colour":"warning","_id":"FnPozXI2hA6rt0NS"}
-{"user":"antony.lockhart","exercise":"More Testing","details":"More testing","endDate":"2021-05-12","started":"2021-05-06","achieved":false,"weekNo":19,"overdue":false,"colour":"warning","_id":"JLEBnxmxVJ3WfcMT"}
-{"exercise":"Jogging","details":"10 Km jog","started":"2020-03-16","endDate":"2020-03-17","user":"antony.lockhart","achieved":false,"colour":"warning","_id":"UgEctjqlcvsaLUVK"}
-{"exercise":"Climbing","details":"150m Free Climb","started":"2020-03-16","endDate":"2020-03-17","user":"antony.lockhart","achieved":true,"colour":"success","_id":"k9M6F86gVjNHGjik"}
-{"exercise":"Walking","details":"5 Km walk","started":"2020-03-16","endDate":"2020-03-17","user":"Katrin","achieved":false,"colour":"warning","_id":"m0BwKU0AKvG7tMdK"}
-{"exercise":"Climbing","details":"150m Free Climb","started":"2020-03-16","endDate":"2020-03-17","user":"Sam","achieved":true,"colour":"success","_id":"s2MYtjfSaadh4Idp"}
-{"exercise":"Running","details":"15 Km run","started":"2020-03-16","endDate":"2020-03-17","user":"antony.lockhart","achieved":false,"colour":"warning","_id":"wFyLUAIgV9N6qDhN"}
-{"user":"antony.lockhart","exercise":"1 million presentations","details":"Just all the things and then more things","endDate":"2021-05-08","started":"2021-05-03","achieved":false,"colour":"warning","_id":"wiQrEmlXuOQNw9Fu"}
+{"user":"antony.lockhart","exercise":"Testing 4","details":"More testing","endDate":"2021-05-12","started":"2021-05-06","achieved":false,"weekNo":19,"overdue":false,"colour":"warning","_id":"T5s8RQEbnUAzGNuO"}
+{"user":"antony.lockhart","exercise":"Testing 1","details":"More testing","endDate":"2021-04-12","started":"2021-04-06","achieved":false,"weekNo":15,"overdue":true,"colour":"danger","_id":"U925q1JPbvA6X1cf"}
+{"user":"antony.lockhart","exercise":"Testing 3","details":"More testing","endDate":"2021-05-12","started":"2021-05-06","achieved":false,"weekNo":19,"overdue":false,"colour":"warning","_id":"WZ0xkbLfD8s2W024"}
+{"user":"antony.lockhart","exercise":"Testing 2","details":"More testing","endDate":"2021-03-12","started":"2021-03-06","achieved":true,"weekNo":11,"overdue":false,"colour":"success","_id":"ms8WURX75pma1qJK"}

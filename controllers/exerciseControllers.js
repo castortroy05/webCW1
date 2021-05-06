@@ -10,17 +10,22 @@ exports.goals_list = function(req, res) {
     
     console.log('logged in as ', req.oidc.user.nickname, cgc, icgc);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
-
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
-        res.render('goals', {
-            'title': 'Exercise Goals',
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = list.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
+        res.render('goalsb', {
+            'title': 'Completed Goals',
             'goals': list,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals,
         });
         console.log('Promise Resolved');
     }).catch((err)=>{
@@ -31,18 +36,26 @@ exports.goals_list = function(req, res) {
 exports.user_goals_list = function(req, res) {
 
     console.log('logged in as ', req.oidc.user.nickname);
-    db.getUserGoals(req.oidc.user.nickname).then((list) => {
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
-
-        res.render('goalsb', {
-            'title': 'Exercise Goals',
-            'goals': list,
-            'user': req.oidc.user.nickname,
-            'completedgoalscount': completeGoalsCount,
-            'incompletegoalscount': incompleteGoalsCount,  
+    var date = new Date().toISOString().split('T')[0];
+        console.log('today is ' ,date);
+        db.overdueGoals(date);
+        db.getUserGoals(req.oidc.user.nickname).then((list) => {
+            list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+                return new Date(a.endDate) - new Date(b.endDate);});
+            complete = list.filter(goal => (goal.achieved));
+            incomplete = list.filter(goal => (!goal.achieved));
+            overdue = list.filter(goal => (goal.overdue));
+            
+            var completeGoalsCount = Object.keys(complete).length;
+            var incompleteGoalsCount = Object.keys(incomplete).length;
+            var overdueGoals = Object.keys(overdue).length;
+            res.render('goalsb', {
+                'title': 'Completed Goals',
+                'goals': list,
+                'user': req.oidc.user.nickname,
+                'completedgoalscount': completeGoalsCount,
+                'incompletegoalscount': incompleteGoalsCount, 
+                'overduegoalscount' : overdueGoals, 
         });
         console.log('Promise Resolved');
     }).catch((err)=>{
@@ -101,19 +114,27 @@ exports.landing_page = function(req, res) {
     }
     else{
         let user = req.oidc.user;
+        var date = new Date().toISOString().split('T')[0];
+        console.log('today is ' ,date);
+        db.overdueGoals(date);
     console.log('basic landing page after login with ', user);
     db.getUserGoals(req.oidc.user.nickname).then((list) => {
-
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
-            'title': 'Exercise Goals',
+            'title': 'Completed Goals',
             'goals': list,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
-            'incompletegoalscount': incompleteGoalsCount,  
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals, 
         });
         console.log('Promise Resolved');
     }).catch((err)=>{
@@ -122,18 +143,23 @@ exports.landing_page = function(req, res) {
 };
 
 exports.incomplete_goals = function(req, res) {
-    db.getAllIncompleteGoals().then((list) => {
-
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
-       res.render('goalsb', {
-           'title': 'Incomplete Goals',
-           'goals': list,
-           'user': req.oidc.user.nickname,
-           'completedgoalscount': completeGoalsCount,
-           'incompletegoalscount': incompleteGoalsCount,  
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
+        res.render('goalsb', {
+            'title': 'Completed Goals',
+            'goals': incomplete,
+            'user': req.oidc.user.nickname,
+            'completedgoalscount': completeGoalsCount,
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals, 
        });
        console.log('Promise Resolved');
    }).catch((err)=>{
@@ -144,18 +170,23 @@ exports.incomplete_goals = function(req, res) {
 exports.user_incomplete_goals_list = function(req, res) {
     
     console.log('logged in as ', req.oidc.user.nickname);
-    db.getUserIncompleteGoals(req.oidc.user.nickname).then((list) => {
-
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
-            'title': 'Exercise Goals',
-            'goals': list,
+            'title': 'Completed Goals',
+            'goals': incomplete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
-            'incompletegoalscount': incompleteGoalsCount,  
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals,
         });
         console.log('Promise Resolved');
     }).catch((err)=>{
@@ -165,18 +196,23 @@ exports.user_incomplete_goals_list = function(req, res) {
 
 exports.completed_goals = function(req, res) {
     
-    db.getAllCompletedGoals().then((list) => {
-
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
-       res.render('goalsb', {
-           'title': 'Completed Goals',
-           'goals': list,
-           'user': req.oidc.user.nickname,
-           'completedgoalscount': completeGoalsCount,
-           'incompletegoalscount': incompleteGoalsCount,  
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
+        res.render('goalsb', {
+            'title': 'Completed Goals',
+            'goals': complete,
+            'user': req.oidc.user.nickname,
+            'completedgoalscount': completeGoalsCount,
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals,
        });
        console.log('Promise Resolved');
    }).catch((err)=>{
@@ -186,23 +222,87 @@ exports.completed_goals = function(req, res) {
 
 exports.user_completed_goals_list = function(req, res) {
     console.log('logged in as ', req.oidc.user.nickname);
-    db.getUserCompletedGoals(req.oidc.user.nickname).then((list) => {
-
-        list1 = list.filter(goal => (goal.achieved));
-        list2 = list.filter(goal => (!goal.achieved));
-        var completeGoalsCount = Object.keys(list1).length;
-        var incompleteGoalsCount = Object.keys(list2).length;
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
-            'title': 'Exercise Goals',
-            'goals': list,
+            'title': 'Completed Goals',
+            'goals': complete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
-            'incompletegoalscount': incompleteGoalsCount,  
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals, 
         });
         console.log('Promise Resolved');
     }).catch((err)=>{
         console.log('Promise Rejected ', err);
     });
+};
+
+exports.user_completed_goals_list = function(req, res) {
+    console.log('logged in as ', req.oidc.user.nickname);
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
+        res.render('goalsb', {
+            'title': 'Completed Goals',
+            'goals': complete,
+            'user': req.oidc.user.nickname,
+            'completedgoalscount': completeGoalsCount,
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals,
+        });
+        console.log('Promise Resolved');
+    }).catch((err)=>{
+        console.log('Promise Rejected ', err);
+    });
+};
+
+exports.user_overdue_goals_list = function(req, res) {
+    console.log('logged in as ', req.oidc.user.nickname);
+    db.getUserGoals(req.oidc.user.nickname).then((list) => {
+        list = list.filter(goal => (goal.endDate)).sort(function(a, b){
+            return new Date(a.endDate) - new Date(b.endDate);});
+        complete = list.filter(goal => (goal.achieved));
+        incomplete = list.filter(goal => (!goal.achieved));
+        overdue = incomplete.filter(goal => (goal.overdue));
+        
+        var completeGoalsCount = Object.keys(complete).length;
+        var incompleteGoalsCount = Object.keys(incomplete).length;
+        var overdueGoals = Object.keys(overdue).length;
+        res.render('goalsb', {
+            'title': 'Completed Goals',
+            'goals': overdue,
+            'user': req.oidc.user.nickname,
+            'completedgoalscount': completeGoalsCount,
+            'incompletegoalscount': incompleteGoalsCount, 
+            'overduegoalscount' : overdueGoals,
+        });
+        console.log('Promise Resolved');
+    }).catch((err)=>{
+        console.log('Promise Rejected ', err);
+    });
+};
+
+exports.overdue_goal = function(req, res){
+    console.log('setting goals as overdue ');
+    db.overdueGoals();
+    res.redirect('/');
+    //res.send('<h1>Not yet implemented: Delete the goal</h1>')
 };
 
 
@@ -240,7 +340,7 @@ exports.complete_goal = function(req, res){
     let user = req.oidc.user.nickname;
     db.getGoal(goal).then((goals) => {
         res.render('completeGoal', {
-            'title': 'Edit Goal',
+            'title': 'Complete Goal',
             'goals': goals,
             'user': req.oidc.user.nickname, 
         });
@@ -252,7 +352,7 @@ exports.complete_goal = function(req, res){
     exports.goals_list = function(req, res) {
     db.getAllGoals().then((list) => {
         res.render('goalsb', {
-            'title': 'Exercise Goals',
+            'title': 'All Goals',
             'goals': list,
             'user': req.user
         });
