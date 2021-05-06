@@ -101,7 +101,7 @@ exports.post_complete_goal = function(req, res) {
     
 };
 
-exports.post_complete_goal = function(req, res) {
+exports.post_share_goal = function(req, res) {
     if (!req.oidc.user.nickname) {
         response.status(400).send("Entries must have a user.");
         return;
