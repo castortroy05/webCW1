@@ -11,7 +11,7 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        {{^goals}}
+        {{^plan}}
         <div class="container shadow-lg border-light" style="background-color: #3d598b; border-radius: 10px;">
                 <div class="row gy-5" style="padding: 5px; ;">
                         <div class="col-12 p-3 text-light text-lg-center text-capitalize">
@@ -25,7 +25,7 @@
                     </div>
                 </br>
         </div>
-        {{/goals}}
+        {{/plan}}
          
         </br>
         {{#user}}
@@ -41,8 +41,8 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="completedgoals" class="btn btn-rounded float-left btn-outline-dark">View Complete</a>
-                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">New Goal</a>
+                                     <a href="completedgoals" title="View Completed Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
 
@@ -55,8 +55,8 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="overduegoals" class="btn btn-rounded float-left btn-outline-dark">View Overdue</a>
-                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">New Goal</a>
+                                     <a href="overduegoals" title="View Overdue Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
                         
@@ -71,8 +71,8 @@
                                 
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="incompletegoals" class="btn btn-rounded float-left btn-outline-dark">View Incomplete</a>
-                                     <a href="/new" class="btn btn-rounded float-right btn-outline-dark">New Goal</a>
+                                     <a href="incompletegoals" title="View Incomplete Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
                         
@@ -86,7 +86,7 @@
             <div class="row gy-5">
                 <div class="col-12 g-5">
                     <div class ="justify-content-center card-group gap-3">
-                        {{#goals}}  
+                        {{#plan}}  
                             {{^achieved}}
                             {{^overdue}}
                             <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:goldenrod; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
@@ -115,32 +115,38 @@
                                 </div>
                                 {{/achieved}}
                             </div>
-                            
-                                <div class="card-body text-capitalize" >{{details}}</div>
-                            
+                            {{#goals}}
+                            <li class="list-group-item d-flex text-capitalize list-group-flush justify-content-between align-items-start" style="background-color: transparent; border-color: transparent;">
+                                <div class="ms-2 me-auto">
+                                  <div class="fw-bold">{{activity}}</div>
+                                  Week {{weekNo}}
+                                </div>
+                                <span class="badge text-black-50 bg-transparent rounded-pill">{{endDate}}</span>
+                              </li>
+                            {{/goals}}
                             <div class="card-footer text-center">
                                <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
                                <div class="btn-group rounded shadow">
                                    {{^achieved}}
                                    {{^overdue}}
-                                <a href="/edit/{{_id}}" class="btn float-left btn-outline-dark">Edit</a>
-                                <a href="/share/{{_id}}" class="btn btn-outline-dark">Share</a>
-                                <a href="/delete/{{_id}}" class="btn btn-outline-dark">Delete</a> 
-                                <a href="/completegoal/{{_id}}" class="btn float-right btn-outline-dark">Complete</a>
+                                <a href="/edit/{{_id}}" title="Edit" class="btn float-left btn-outline-dark"><i class="fas fa-edit"></i> </a>
+                                <a href="/share/{{_id}}" title="Share" class="btn btn-outline-dark"><i class="fas fa-share-alt"></i> </a>
+                                <a href="/delete/{{_id}}" title="Delete" class="btn btn-outline-dark"><i class="fas fa-eraser"></i> </a> 
+                                <a href="/completegoal/{{_id}}" title="Complete" class="btn float-right btn-outline-dark"><i class="fas fa-check-double"></i></a>
                                 {{/overdue}}
                                 {{#overdue}}
-                                <a href="/delete/{{_id}}" class="btn btn-rounded btn-outline-dark">Delete</a>
+                                <a href="/delete/{{_id}}" title="Delete" class="btn btn-rounded btn-outline-dark"><i class="fas fa-eraser"></i> </a>
                                 {{/overdue}}
                                 {{/achieved}}
                                  {{#achieved}}
-                                    <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
+                                    <a href="/share/{{_id}}" title="Share" class="btn btn-rounded btn-outline-dark"><i class="fas fa-share-alt"></i> </a>
                                  {{/achieved}}
                                 
                             </div></div>
                     </div>
                 
                         <hr>
-                        {{/goals}}
+                        {{/plan}}
                     </br></br>
                     </div> 
                 </div>

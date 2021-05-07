@@ -1,8 +1,10 @@
 const { response } = require('express');
 const GoalsDAO = require('../models/exerciseModel');
 
+const Mail = require('nodemailer/lib/mailer');
 
-const db = new GoalsDAO('newgoals.db');
+
+const db = new GoalsDAO('newgoals.db'); 
 
 
 
@@ -52,6 +54,7 @@ exports.user_goals_list = function(req, res) {
             res.render('goalsb', {
                 'title': 'Completed Goals',
                 'goals': list,
+                'activities': list.activities,
                 'user': req.oidc.user.nickname,
                 'completedgoalscount': completeGoalsCount,
                 'incompletegoalscount': incompleteGoalsCount, 
@@ -64,7 +67,7 @@ exports.user_goals_list = function(req, res) {
 };
 
 exports.seed = function(req, res) {
-    db.seedDb();
+    db.seedDb(req.oidc.user.nickname);
     console.log('Database seeded');
     res.redirect('/');
 };
@@ -75,7 +78,16 @@ exports.post_new_goal = function(req, res) {
         return;
     }  
         console.log('attempting to add in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
-       db.addGoal(req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
+        let endDate;
+        let num1 = req.body.endDate1;
+        let num2 = req.body.endDate2;
+        let num3 = req.body.endDate3;
+
+        if(num1 >= num2 && num1 >= num3)
+        {endDate = num1;}
+        else if (num2 >= num1 && num2 >= num3){endDate = num2;}
+        else {endDate = num3;}
+        db.addGoal(req.oidc.user.nickname, req.body.goalname, req.body.exercise1, num1,req.body.details1, req.body.exercise2, num2,req.body.details2, req.body.exercise3, num3,req.body.details3, endDate);
         res.redirect('/');
     
 };
@@ -86,31 +98,13 @@ exports.post_update_goal = function(req, res) {
         return;
     }  
         console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
-       db.updateGoal(req.params.id, req.body.exercise, req.body.details, req.body.endDate);
-        res.redirect('/');
-    
-};
-exports.post_complete_goal = function(req, res) {
-    if (!req.oidc.user.nickname) {
-        response.status(400).send("Entries must have a user.");
-        return;
-    }  
-        console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
-       db.completeGoal(req.params.id);
+        db.updateGoal(req.params.id, req.body.exercise, req.body.details, req.body.endDate);
         res.redirect('/');
     
 };
 
-exports.post_share_goal = function(req, res) {
-    if (!req.oidc.user.nickname) {
-        response.status(400).send("Entries must have a user.");
-        return;
-    }  
-        console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
-       db.completeGoal(req.params.id);
-        res.redirect('/');
-    
-};
+
+
 
 exports.landing_page = function(req, res) {
 
@@ -141,7 +135,7 @@ exports.landing_page = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': list,
+            'plan': list,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -166,7 +160,7 @@ exports.incomplete_goals = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': incomplete,
+            'plan': incomplete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -193,7 +187,7 @@ exports.user_incomplete_goals_list = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': incomplete,
+            'plan': incomplete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -219,7 +213,7 @@ exports.completed_goals = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': complete,
+            'plan': complete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -245,7 +239,7 @@ exports.user_completed_goals_list = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': complete,
+            'plan': complete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -271,7 +265,7 @@ exports.user_completed_goals_list = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': complete,
+            'plan': complete,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -297,7 +291,7 @@ exports.user_overdue_goals_list = function(req, res) {
         var overdueGoals = Object.keys(overdue).length;
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': overdue,
+            'plan': overdue,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -359,6 +353,16 @@ exports.complete_goal = function(req, res){
         console.log('error handling goal ', err);
     });
 };
+exports.post_complete_goal = function(req, res) {
+    if (!req.oidc.user.nickname) {
+        response.status(400).send("Entries must have a user.");
+        return;
+    }  
+        console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
+        db.completeGoal(req.params.id);
+        res.redirect('/');
+    
+};
 
     exports.goals_list = function(req, res) {
     db.getAllGoals().then((list) => {
@@ -392,6 +396,25 @@ exports.share_goal = function(req, res){
     }).catch((err) => {
         console.log('error handling goal ', err);
     });
+};
+
+exports.post_share_goal = function(req, res) {
+    if (!req.oidc.user.nickname) {
+        response.status(400).send("Entries must have a user.");
+        return;
+    }  
+        let message = {
+          exercise: req.body.exercise,
+          details: req.body.details,
+          recipient: req.body.recipient,
+          from: req.oidc.user.email,
+
+        };
+        console.log('attempting to email goal in post ',req.oidc.user.nickname, req.body.exercise, req.body.details, message);
+       
+        db.shareGoal(message);
+        res.redirect('/');
+    
 };
 
 exports.new_goal = function(req, res) {

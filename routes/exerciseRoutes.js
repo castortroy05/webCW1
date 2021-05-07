@@ -59,6 +59,8 @@ router.post('/edit/:id', requiresAuth(), controller.post_update_goal);
 
 router.get('/share/:id', requiresAuth(), controller.share_goal);
 
+router.post('/share/:id', requiresAuth(), controller.post_share_goal);
+
 router.use(function( req, res) {
     res.render('error', {
         'title': 'Error Page',

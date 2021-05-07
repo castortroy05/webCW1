@@ -5,46 +5,70 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
-       {{>header}}
-    </head>
-    <body class ="container-fluid" style="background-color:darkslateblue; ">
+        {{>header}}
+     </head>
+
+    <body class= "container-fluid " style="background-color:darkslateblue;">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-      
-   
-        <div class ="justify-content-center card-group gap-3">
-        {{#goals}}        
-            <div class="card bg-{{colour}} shadow-lg" style="min-height: 7rem; min-width: 25rem; max-width: 25rem; border-radius:5%">
-                <div class="card-header text-center shadow-sm text-capitalize">
-                    <h2 class="text-lg">{{exercise}}</h2>
-                <div class="card-subtitle text-sm text-capitalize">
-                    To be completed by {{endDate}}
-                </div></div>
-                <div class="card-body bg-light text-capitalize">
-                 <p class="card-text" style="min-height: 5rem;">
-                {{details}}
-                </p>
-                </div>
-            <div class="card-footer text-center">
-               <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
-               <div class="btn-group btn-group-lg shadow-lg">
-                <a href="/edit/{{_id}}" class="btn btn-rounded float-left btn-outline-dark">Edit</a>
-                <a href="/share/{{_id}}" class="btn btn-rounded btn-outline-dark">Share</a>
-                <a href="/delete/{{_id}}" class="btn btn-rounded float-right btn-outline-dark">Delete</a>
-            </div></div>
-    </div>
 
-        <hr>
-        {{/goals}}</div>                            
-        {{^goals}}
-        No goals yet.
-        {{/goals}}
-        
-
-
-
-        <script src="" async defer></script>
-    </body>
     
+        <div class="container border-light shadow-lg" style="background-color: #3d598b; margin-top:50px; border-radius: 10px">
+                        <div class="page-header text-lg-center text-light" style="padding: 5px;">
+                            <h1> This form will allow you to send your goal to a friend.
+                            </h1>
+                        </div>
+                    </div></br> </br> 
+
+            <div class="container border-dark text-white shadow-lg" style="background-color: #3d598b; padding: auto; border-radius: 10px ;">
+               </br> <div class="row-cols-auto gy-5">
+                    <div class="col-12 p3">
+                        <form method="post"role="form" class="row g-2" align="center">
+                          {{#goals}}        
+                          <div class="row mb-3 mx-auto">
+                              <label for="User" class="col-sm-2 col-form-label">User</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="form-control" name="user" id="user" value="{{user}}" readonly>
+                              </div>
+                          </div>
+              
+                          <div class="row mb-3 mx-auto">
+                              <label for="exercise" class="col-sm-2 col-form-label">Exercise</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="form-control col-md-1" name="exercise" id="exercise" value="{{exercise}}" readonly>
+                              </div>
+                          </div>
+
+                            <div class="row mb-3 mx-auto">
+                                <label for="To" class="col-sm-2 col-form-label">To</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control col-md-1" name="recipient" id="recipient"  required placeholder="someone@email.com">
+                                </div>
+                            </div>
+              
+                          <div class="row mb-3 mx-auto">
+                              <label for="details" class="col-2 col-form-label">Details</label>
+                              <div class="col-sm-10">
+                              <textarea class="form-control" style="height: 70px;" id="details" name="details" value="" readonly>{{details}}</textarea></div>
+                          </div>
+              
+                          <div class="form-group" style="padding: 10px;">
+                              <input type="submit" value="Send Goal" class="btn btn-rounded btn-outline-dark shadow-lg">
+                          </div>
+                    {{/goals}}
+                      
+                        </form>
+                
+
+                    </div>
+                </div>
+            
+
+            </div>
+
+    
+    </body>
 </html>
+
+

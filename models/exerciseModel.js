@@ -2,6 +2,17 @@ const { rejects } = require('assert');
 const nedb = require('nedb');
 const { resolve } = require('path');
 const weekNumber = require('current-week-number');
+const nodemailer = require('nodemailer');
+
+var transport = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "86a0901ab78049",
+      pass: "139022643682b6"
+    }
+  });
+
 
 class Goals{
 constructor(dbFilePath) {
@@ -33,15 +44,30 @@ init() {
     console.log('db entry Peter inserted');
 
 }
-    seedDb() {
+    seedDb(user) {
+        //var dueWeek = weekNumber(endDate);
+
         this.db.insert({
-            user: 'antony.lockhart',
+            user: user,
             exercise: 'Testing 1',
-            details: 'More testing',
+            goals: [
+                {
+                activity: 'Running',
+                endDate: '2021-04-12'
+                },
+                {
+                activity: 'Swimming',
+                endDate: '2021-04-12'
+                }, 
+                {
+                activity: 'Climbing',
+                endDate: '2021-04-12'
+                },
+                ],
             endDate: '2021-04-12',
             started: '2021-04-06',
             achieved: false,
-            weekNo: 15,
+            weekNo: weekNumber('2021-04-12'),
             overdue: false,
             colour: 'warning',
     
@@ -50,13 +76,26 @@ init() {
         console.log('db entry Testing 1 inserted');
 
         this.db.insert({
-            user: 'antony.lockhart',
+            user: user,
             exercise: 'Testing 2',
-            details: 'More testing',
+            goals: [
+                {
+                activity: 'Boxing',
+                endDate: '2021-03-12'
+                },
+                {
+                activity: 'Dance Workout',
+                endDate: '2021-03-12'
+                }, 
+                {
+                activity: 'Squats',
+                endDate: '2021-03-12'
+                },
+                ],
             endDate: '2021-03-12',
             started: '2021-03-06',
             achieved: false,
-            weekNo: 11,
+            weekNo: weekNumber('2021-03-12'),
             overdue: false,
             colour: 'warning',
     
@@ -65,13 +104,26 @@ init() {
         console.log('db entry Testing 2 inserted');
 
         this.db.insert({
-            user: 'antony.lockhart',
+            user: user,
             exercise: 'Testing 3',
-            details: 'More testing',
+            goals: [
+                {
+                activity: '5Km walk',
+                endDate: '2021-05-12'
+                },
+                {
+                activity: 'Cycling',
+                endDate: '2021-05-12'
+                }, 
+                {
+                activity: 'Cardio 30 Mins',
+                endDate: '2021-05-12'
+                },
+                ],
             endDate: '2021-05-12',
             started: '2021-05-06',
             achieved: false,
-            weekNo: 19,
+            weekNo: weekNumber('2021-05-12'),
             overdue: false,
             colour: 'warning',
     
@@ -80,13 +132,26 @@ init() {
         console.log('db entry Testing 3 inserted');
 
         this.db.insert({
-            user: 'antony.lockhart',
+            user: user,
             exercise: 'Testing 4',
-            details: 'More testing',
-            endDate: '2021-05-12',
+            goals: [
+                {
+                activity: 'Weights Training',
+                endDate: '2021-05-04'
+                },
+                {
+                activity: 'Yoga',
+                endDate: '2021-05-12'
+                }, 
+                {
+                activity: '10km Run',
+                endDate: '2021-05-17'
+                },
+                ],
+            endDate: '2021-05-17',
             started: '2021-05-06',
             achieved: false,
-            weekNo: 19,
+            weekNo: weekNumber('2021-05-17'),
             overdue: false,
             colour: 'warning',
     
@@ -217,17 +282,30 @@ getIncompleteGoalCount(user){
 addGoal(user, exercise, details, endDate) {
     var dueWeek = weekNumber(endDate);
     console.log(dueWeek);
-console.log('attempting to add', user, exercise, details, endDate, dueWeek);
+console.log('attempting to add', user, exercise, details1, details2, details3, endDate1, endDate2, endDate3, dueWeek);
 var goal = {
     user: user,
     exercise: exercise,
-    details: details,
+    goals: [
+        {
+        activity: details1,
+        endDate: endDate1
+        },
+        {
+        activity: details2,
+        endDate: endDate2
+        }, 
+        {
+        activity: details3,
+        endDate: endDate3
+        },
+        ],
     endDate: endDate,
     started: new Date().toISOString().split('T')[0],
     achieved: false,
-    weekNo: dueWeek,
     overdue: false,
-    colour: 'warning'
+    colour: 'warning',
+    weekNo: dueWeek,
 
 };
 console.log('goal created', goal);
@@ -284,6 +362,32 @@ updateGoal(id, exercise, details, endDate) {
             }
 
 
+            shareGoal(message){
+
+                console.log('attempting to send email with ', message);
+            
+                var details = message.details;
+                var exercise = message.exercise;
+                var recipient = message.recipient;
+                var from = message.from;
+                let textMail = ('Hey there, I wanted to share this goal with you. I completed my '+ exercise + ' goal, which was '+ details);
+                let htmlMessage = ('<div class=""><h1>Hey there! </h1><br><br> I wanted to share this goal with you<br></br> I completed my '+ exercise+ ' goal, which was '+ details+'</div>');
+                console.log(textMail, htmlMessage);
+                var mailOptions = {
+                    from: from,
+                    to: recipient,
+                    subject: 'Check out my goal',
+                    text:textMail,
+                    html: htmlMessage
+                };
+            console.log('sending ', mailOptions);
+                transport.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    console.log('Message sent: %s', info.messageId);
+            });}
+
 deleteGoal(goalId){
     this.db.remove({_id: goalId }, {}, function(err, goalRem) {
         if(err) {
@@ -292,9 +396,12 @@ deleteGoal(goalId){
             console.log(goalRem, ' goals removed from the database ');
         }
         });
-    }    
+    }  
+      
 
 }
+
+
 
 
 //export the module
