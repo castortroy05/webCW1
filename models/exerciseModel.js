@@ -455,8 +455,7 @@ for(let i = 0; i < goals.length; i++){
 
 }
 
-
-            shareGoal(message){
+shareGoal(message){
 
                 console.log('attempting to send email with ', message);
             
