@@ -321,7 +321,7 @@ exports.landing_page = function(req, res) {
     if(!req.oidc.user)
     {
         console.log('basic landing page after login with no user');
-        res.render('Home', {
+        res.render('index', {
             'title': 'Goal Getters Home Page',
             'greeting': 'Welcome to Goal Getters, please Login to continue' 
         });
@@ -335,7 +335,7 @@ exports.landing_page = function(req, res) {
     console.log('basic landing page after login with ', user);
 
 
-    res.render('home', {
+    res.render('index', {
         'title': 'Goal Getters Home Page',
         'greeting': 'Welcome to Goal Getters',
         'user': user.nickname,
