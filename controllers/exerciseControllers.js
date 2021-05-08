@@ -26,7 +26,7 @@ exports.goals_list = function(req, res) {
        
         res.render('goalsb', {
             'title': 'Completed Goals',
-            'goals': list,
+            'plan': list,
             'user': req.oidc.user.nickname,
             'completedgoalscount': completeGoalsCount,
             'incompletegoalscount': incompleteGoalsCount, 
@@ -385,7 +385,7 @@ exports.overdue_goal_check = function(req, res){
     db.getAllGoals().then((list) => {
         res.render('goalsb', {
             'title': 'All Goals',
-            'goals': list,
+            'plan': list,
             'user': req.user
         });
         console.log('Promise Resolved');
