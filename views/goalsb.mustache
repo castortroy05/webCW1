@@ -28,6 +28,7 @@
         {{/plan}}
          
         </br>
+        {{^home}}
         {{#user}}
         <div class="container-fluid" style="background-color: transparent;  border-radius: 10px; padding: auto;">
                  <div class="row " style="padding: 5px;;">
@@ -121,7 +122,7 @@
                                   <div class="fw-bold">{{exercise}}</div>
                                   {{activity}}
                                 </div>
-                                <span class="badge text-black-50 bg-transparent rounded-pill"><a href="/week/{{weekNo}}">Week {{weekNo}}</a></span>
+                                <span class="badge text-black-50 bg-transparent rounded-pill"><a href="/week/{{weekNo}}"Week {{weekNo}}</a></a></a></span>
                               </li>
                             {{/goals}}
                             <div class="card-footer text-center">
