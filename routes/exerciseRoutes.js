@@ -35,19 +35,19 @@ router.get('/new', requiresAuth(), controller.new_goal);
 
 router.post('/new', requiresAuth(), controller.post_new_goal);
 
-router.get('/about', controller.about_page);
+router.get('/checkod', requiresAuth(), controller.overdue_goal_check);
 
-router.use('/dbseed', controller.seed);
+router.use('/dbseed', requiresAuth(), controller.seed);
 
 router.get('/delete/:id', requiresAuth(), controller.delete_goal);
 
-router.get('/view/:id', controller.view_goal);
+router.get('/week/:id',requiresAuth(), controller.view_week_goals);
 
 router.get('/edit/:id', requiresAuth(), controller.edit_goal);
 
 router.get('/completegoal/:id', requiresAuth(), controller.complete_goal);
 
-router.post('/completegoal/:id', requiresAuth(), controller.post_complete_goal);
+//router.post('/completegoal/:id', requiresAuth(), controller.post_complete_goal);
 
 router.get('/sharegoal/:id', requiresAuth(), controller.share_goal);
 

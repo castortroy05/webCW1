@@ -31,24 +31,10 @@
         {{#user}}
         <div class="container-fluid" style="background-color: transparent;  border-radius: 10px; padding: auto;">
                  <div class="row " style="padding: 5px;;">
-                    <div class ="card-group justify-content-xl-evenly">
-                            <div class="card shadow" style=" background-color:darkseagreen; min-height: 7rem; min-width: 15rem; max-width: fit-content; border-radius:5%">
+                    <div class ="card-group justify-content-evenly">
+                            <div class="card shadow" style=" background-color:palevioletred ; min-height: fit-content; min-width: 13rem; max-width: fit-content; border-radius:15%">
                                 <h5 class="card-header text-center text-capitalize">
-                                      Complete Goals
-                                </h5>
-                                <div class="card-body" style="min-height: max-content;" >
-                                    <h1 class="card-title text-center">{{completedgoalscount}}</h1>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="completedgoals" title="View Completed Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
-                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
-                                 </div></div>
-                            </div>
-
-                            <div class="card  shadow" style=" background-color:palevioletred ; min-height: 7rem; min-width: 15rem; max-width: fit-content; border-radius:5%">
-                                <h5 class="card-header text-center text-capitalize">
-                                      Overdue Goals
+                                      Overdue Goals <i class="fas fa-times-circle"></i>
                                 </h5>
                                 <div class="card-body" style="min-height: max-content;" >
                                     <h1 class="card-title text-center">{{overduegoalscount}}</h1>
@@ -61,9 +47,9 @@
                             </div>
                         
                         
-                            <div class="card shadow" style="background-color:goldenrod; min-height: 7rem; min-width: 15rem; max-width: fit-content; border-radius:5%">
+                            <div class="card shadow" style="background-color:goldenrod; min-height: fit-content; min-width: 13rem; max-width: fit-content; border-radius:15%">
                                 <h5 class="card-header text-center text-capitalize">
-                                    Incomplete Goals
+                                    Incomplete Goals <i class="far fa-calendar-check"></i>
                                 </h5>
                                 <div class="card-body" style="min-height: max-content;" >
                                     <h1 class="card-title text-center">{{incompletegoalscount}}</h1>
@@ -72,6 +58,20 @@
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
                                      <a href="incompletegoals" title="View Incomplete Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
+                                 </div></div>
+                            </div>
+
+                            <div class="card shadow" style=" background-color:darkseagreen; min-height: fit-content; min-width: 13rem; max-width: fit-content; border-radius:15%;">
+                                <h5 class="card-header text-sm-center text-capitalize">
+                                      Complete Goals <i class="fas fa-trophy"></i>
+                                </h5>
+                                <div class="card-body" style="min-height: max-content;" >
+                                    <h1 class="card-title text-center">{{completedgoalscount}}</h1>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="btn-group rounded-pill btn-group-sm shadow-lg">
+                                     <a href="completedgoals" title="View Completed Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
                                      <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
@@ -85,18 +85,18 @@
         <div class="container shadow-lg" style="background-color: #3d598b; border-radius: 10px ;">
             <div class="row gy-5">
                 <div class="col-12 g-5">
-                    <div class ="justify-content-center card-group gap-3">
+                    <div class ="justify-content-center m-3 card-group gap-3">
                         {{#plan}}  
                             {{^achieved}}
                             {{^overdue}}
-                            <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:goldenrod; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                            <div class="card m-2 border-{{colour}} shadow" style="border-width: 1px; ; background-color:goldenrod; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:10%">
                              {{/overdue}}  
                              {{#overdue}}
-                             <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:palevioletred; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                             <div class="card m-2 border-{{colour}} shadow" style="border-width: 1px; ; background-color:palevioletred; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:10%">
                              {{/overdue}}
                              {{/achieved}}
                              {{#achieved}}
-                             <div class="card border-{{colour}} shadow" style="border-width: 1px; ; background-color:darkseagreen; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:5%">
+                             <div class="card m-2 border-{{colour}} shadow" style="border-width: 1px; ; background-color:darkseagreen; min-height: 7rem; min-width: fit-content; max-width: fit-content; border-radius:10%">
                             {{/achieved}}
                              
                              
@@ -118,10 +118,10 @@
                             {{#goals}}
                             <li class="list-group-item d-flex text-capitalize list-group-flush justify-content-between align-items-start" style="background-color: transparent; border-color: transparent;">
                                 <div class="ms-2 me-auto">
-                                  <div class="fw-bold">{{activity}}</div>
-                                  Week {{weekNo}}
+                                  <div class="fw-bold">{{exercise}}</div>
+                                  {{activity}}
                                 </div>
-                                <span class="badge text-black-50 bg-transparent rounded-pill">{{endDate}}</span>
+                                <span class="badge text-black-50 bg-transparent rounded-pill"><a href="/week/{{weekNo}}">Week {{weekNo}}</a></span>
                               </li>
                             {{/goals}}
                             <div class="card-footer text-center">

@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active me-auto mb-auto" aria-current="page" href="#">{{title}}</a>
+                  <a class="nav-link active me-auto mb-auto" align="center" aria-current="page" href="/">{{title}}</a>
                 </li>
                 {{^user}}
                 <li class="nav-item">
@@ -28,6 +28,9 @@
                 </li>
                 {{/user}}
                 {{#user}}
+                <li class="nav-item">
+                  <a class="nav-link" href="/dbseed">Seed Database</a>
+                </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="goalsmenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-tasks"></i> Goals
@@ -65,19 +68,7 @@
         </br>
       </br>
     </br>
-        <div class="container shadow-lg border-light" style="background-color: #3d598b; border-radius: 10px;">
-          <div class="row" style="padding: 5px; ;">
-                  <div class="col-12 text-light text-lg-center text-capitalize">
-                      <h1>{{title}} <i class="fas fa-running"></i></h1>
-                      {{#user}}
-                      
-                          <h3>Logged in as {{user}} </h3>
-                     
-                      {{/user}}
-                  </div>
-              </div>
-          </br>
-  </div>
+        
     
       </body>
 </html>

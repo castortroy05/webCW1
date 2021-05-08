@@ -52,15 +52,18 @@ init() {
             exercise: 'Testing 1',
             goals: [
                 {
-                activity: 'Running',
+                exercise:'Running',
+                activity: '10Km Run',
                 endDate: '2021-04-12'
                 },
                 {
-                activity: 'Swimming',
+                exercise:'Swimming',
+                activity: '100 Laps',
                 endDate: '2021-04-12'
                 }, 
                 {
-                activity: 'Climbing',
+                exercise:'Climbing',
+                activity: '200m Climb',
                 endDate: '2021-04-12'
                 },
                 ],
@@ -80,15 +83,18 @@ init() {
             exercise: 'Testing 2',
             goals: [
                 {
-                activity: 'Boxing',
+                exercise:'Boxing',
+                activity: '30 Mins',
                 endDate: '2021-03-12'
                 },
                 {
-                activity: 'Dance Workout',
+                exercise:'Dance Workout',
+                activity: '1 Hour',
                 endDate: '2021-03-12'
                 }, 
                 {
-                activity: 'Squats',
+                exercise:'Squats',
+                activity: '3 sets 15 reps',
                 endDate: '2021-03-12'
                 },
                 ],
@@ -108,15 +114,18 @@ init() {
             exercise: 'Testing 3',
             goals: [
                 {
+                exercise:'Walking',
                 activity: '5Km walk',
                 endDate: '2021-05-12'
                 },
                 {
-                activity: 'Cycling',
+                exercise: 'Cycling',
+                activity: '10km Ride',
                 endDate: '2021-05-12'
                 }, 
                 {
-                activity: 'Cardio 30 Mins',
+                exercise:'Cardio',
+                activity: '30 minutes',
                 endDate: '2021-05-12'
                 },
                 ],
@@ -136,14 +145,17 @@ init() {
             exercise: 'Testing 4',
             goals: [
                 {
-                activity: 'Weights Training',
+                exercise: 'Weights Training',
+                activity: '3 sets, 10 reps',
                 endDate: '2021-05-04'
                 },
                 {
-                activity: 'Yoga',
+                exercise: 'Yoga',
+                activity: '1 Hour',
                 endDate: '2021-05-12'
                 }, 
                 {
+                exercise: 'Running',
                 activity: '10km Run',
                 endDate: '2021-05-17'
                 },
@@ -279,7 +291,8 @@ getIncompleteGoalCount(user){
     });
     });
 }
-addGoal(user, exercise, details, endDate) {
+addGoal(user, exercise, exercise1, endDate1 ,details1, exercise2, endDate2, details2, exercise3, endDate3, details3, endDate) {
+    
     var dueWeek = weekNumber(endDate);
     console.log(dueWeek);
 console.log('attempting to add', user, exercise, details1, details2, details3, endDate1, endDate2, endDate3, dueWeek);
@@ -288,14 +301,17 @@ var goal = {
     exercise: exercise,
     goals: [
         {
+        exercise: exercise1,
         activity: details1,
         endDate: endDate1
         },
         {
+        exercise: exercise2,    
         activity: details2,
         endDate: endDate2
         }, 
         {
+        exercise: exercise3,
         activity: details3,
         endDate: endDate3
         },
@@ -324,10 +340,54 @@ this.db.insert(goal, function(err, doc) {
 
 
 
-updateGoal(id, exercise, details, endDate) {
-    console.log('attempting to update', exercise, details, endDate, ' to post id ', id);
+updateGoal(id, exercise, exercise1, endDate1 ,details1, exercise2, endDate2, details2, exercise3, endDate3, details3, endDate) {
+    var dueWeek = weekNumber(endDate);
+    var goals = {
+        
+        exercise: exercise,
+        goals: [
+            {
+            exercise: exercise1,
+            activity: details1,
+            endDate: endDate1
+            },
+            {
+            exercise: exercise2,    
+            activity: details2,
+            endDate: endDate2
+            }, 
+            {
+            exercise: exercise3,
+            activity: details3,
+            endDate: endDate3
+            },
+            ],
+        endDate: endDate,
+        weekNo: dueWeek,
+    
+    };
+    console.log('attempting to update', goals, ' to post id ', id);
+
     // console.log('goal created', goal);
-    this.db.update({_id: id},{$set: { exercise: exercise, details: details, endDate: endDate }}, function(err, doc) {
+    this.db.update({_id: id},{$set: { exercise:exercise ,goals: [
+                                                {
+                                                    exercise: exercise1,
+                                                    activity: details1,
+                                                    endDate: endDate1
+                                                 },
+                                                 {
+                                                    exercise: exercise2,    
+                                                    activity: details2,
+                                                    endDate: endDate2
+                                                }, 
+                                                {
+                                                    exercise: exercise3,
+                                                    activity: details3,
+                                                    endDate: endDate3
+                                                },
+                                             ],
+    endDate: endDate,
+    weekNo: dueWeek, }}, function(err, doc) {
         if (err) {
             console.log('Error inserting goals', exercise);
         } else {
@@ -337,7 +397,7 @@ updateGoal(id, exercise, details, endDate) {
     }
 
 
-    completeGoal(id) {
+completeGoal(id) {
         console.log('attempting to complete post id ', id);
         // console.log('goal created', goal);
         this.db.update({_id: id},{$set: { achieved: true, colour: 'success' }}, function(err, doc) {
@@ -349,17 +409,51 @@ updateGoal(id, exercise, details, endDate) {
         });
         }
 
-        overdueGoals(date) {
-            console.log('attempting to mark goals as overdue as they are due before ', date);
-            // console.log('goal created', goal);
-            this.db.update({endDate: {$lte: date}},{$set: { overdue: true, colour: 'danger' }}, function(err, doc) {
-                if (err) {
-                    console.log('Error updating goals', err);
-                } else {
-                    console.log('document updated in the database', doc);
-                }
-            });
+overdueGoals(date) {
+    
+    console.log('attempting to mark goals as overdue as they are due before ', date);
+    return new Promise((resolve, reject) => {
+        this.db.find({achieved: false}, function(err, goals){
+            if (err){
+            reject(err);
+             } else {
+        resolve(goals);
+
+        for(let i = 0; i < goals.length; i++){ 
+            console.log('checking ', goals[i]._id);
+            var id = goals[i]._id;
+            if(goals[i].endDate < date)
+            {
+                
+                console.log('checking id and date', goals[i]._id, date);
+                id = goals[i].id;
             }
+            console.log('attempting to run function with id: ' , id);
+            this.setOverdue(id);
+
+            }
+
+         // console.log('goal created', goal);
+    
+
+
+    }   
+    });
+    });
+
+    
+           
+            }
+setOverdue(goals){
+console.log('passed to check for overdue status', goals._id);
+for(let i = 0; i < goals.length; i++){ 
+    console.log('checking ', goals[i]._id);
+    this.db.update({_id: goals[i]},{$set: { overdue: true, colour: 'danger' }});
+}
+    
+    
+
+}
 
 
             shareGoal(message){

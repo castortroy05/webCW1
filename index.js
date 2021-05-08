@@ -33,7 +33,7 @@ app.use(auth(config));
 
 const public = path.join(__dirname, 'public');
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(public));
 
