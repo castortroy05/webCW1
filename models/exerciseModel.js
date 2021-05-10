@@ -447,8 +447,8 @@ overdueGoals(date) {
 setOverdue(goals){
 console.log('passed to check for overdue status', goals._id);
 for(let i = 0; i < goals.length; i++){ 
-    console.log('checking ', goals[i]._id);
-    this.db.update({_id: goals[i]},{$set: { overdue: true, colour: 'danger' }});
+    console.log('setting as overdue ', goals[i]._id);
+    this.db.update({_id: goals[i]._id},{$set: { overdue: true, colour: 'danger' }});
 }
     
     

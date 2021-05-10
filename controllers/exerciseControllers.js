@@ -181,7 +181,8 @@ exports.user_overdue_goals_list = function(req, res) {
             return new Date(a.endDate) - new Date(b.endDate);});
         complete = list.filter(goal => (goal.achieved));
         incomplete = list.filter(goal => (!goal.achieved && !goal.overdue));
-        overdue = incomplete.filter(goal => (goal.overdue));
+        overdue = list.filter(goal => (goal.overdue));
+        console.log('over due goals are ', overdue);
         
         var completeGoalsCount = Object.keys(complete).length;
         var incompleteGoalsCount = Object.keys(incomplete).length;
@@ -249,7 +250,7 @@ exports.post_new_goal = function(req, res) {
         else if (num2 >= num1 && num2 >= num3){endDate = num2;}
         else {endDate = num3;}
         db.addGoal(req.oidc.user.nickname, req.body.goalname, req.body.exercise1, num1,req.body.details1, req.body.exercise2, num2,req.body.details2, req.body.exercise3, num3,req.body.details3, endDate);
-        res.redirect('/goals');
+        res.redirect('/goals/allgoals');
     
 };
 
@@ -269,7 +270,7 @@ exports.post_update_goal = function(req, res) {
         else {endDate = num3;}
         console.log('attempting to update goal in post ', req.oidc.user.nickname, req.body.exercise, req.body.details, req.body.endDate);
         db.updateGoal(req.params.id, req.body.goalname, req.body.exercise[0], num1,req.body.details[0], req.body.exercise[1], num2,req.body.details[1], req.body.exercise[2], num3,req.body.details[2], endDate);
-        res.redirect('/goals');
+        res.redirect('/goals/allgoals');
     
 };
 
@@ -296,13 +297,13 @@ exports.edit_goal = function(req, res){
 exports.complete_goal = function(req, res){
     console.log('completing goal with id ', req.params.id);
     db.completeGoal(req.params.id);
-        res.redirect('/goals');
+        res.redirect('/goals/allgoals');
 };
 
 exports.delete_goal = function(req, res){
     console.log('deleting goal with id ', req.params.id);
     db.deleteGoal(req.params.id);
-    res.redirect('/goals');
+    res.redirect('/goals/allgoals');
     //res.send('<h1>Not yet implemented: Delete the goal</h1>')
 };
 
@@ -310,7 +311,7 @@ exports.delete_goal = function(req, res){
 exports.seed = function(req, res) {
     db.seedDb(req.oidc.user.nickname);
     console.log('Database seeded');
-    res.redirect('/goals');
+    res.redirect('/goals/allgoals');
 };
 
 
@@ -360,7 +361,7 @@ exports.overdue_goal_check = function(req, res){
 
         console.log('the overdue goals are', overdue);
         db.setOverdue(overdue);
-        res.redirect('/goals');
+        res.redirect('/goals/allgoals');
         console.log('Promise Resolved');
     }).catch((err)=>{
         console.log('Promise Rejected ', err);
@@ -430,7 +431,7 @@ exports.post_share_goal = function(req, res) {
         console.log('attempting to email goal in post ',req.oidc.user.nickname, req.body.exercise, req.body.details, message);
        
         db.shareGoal(message);
-        res.redirect('/');
+        res.redirect('/goals/allgoals');
     
 };
 

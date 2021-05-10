@@ -41,8 +41,8 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="overduegoals" title="View Overdue Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
-                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
+                                     <a href="/goals/overdue" title="View Overdue Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/goals/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
                         
@@ -57,8 +57,8 @@
                                 
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="incompletegoals" title="View Incomplete Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
-                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
+                                     <a href="/goals/incomplete" title="View Incomplete Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/goals/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
 
@@ -71,8 +71,8 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <div class="btn-group rounded-pill btn-group-sm shadow-lg">
-                                     <a href="completedgoals" title="View Completed Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
-                                     <a href="/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
+                                     <a href="/goals/complete" title="View Completed Goals" class="btn btn-rounded float-left btn-outline-dark"><i class="far fa-eye"></i></a>
+                                     <a href="/goals/new" title="Add a new goal" class="btn btn-rounded float-right btn-outline-dark"><i class="fas fa-plus"></i></a>
                                  </div></div>
                             </div>
                         
@@ -121,25 +121,25 @@
                                   <div class="fw-bold">{{exercise}}</div>
                                   {{activity}}
                                 </div>
-                                <span class="badge text-black-50 bg-transparent rounded-pill"><a href="/week/{{weekNo}}"Week {{weekNo}}</a></a></a></span>
+                                <span class="badge text-black-50 bg-transparent rounded-pill"><a href="/goals/week/{{weekNo}}"Week {{weekNo}}</a></a></a></span>
                               </li>
                             {{/goals}}
                             <div class="card-footer text-center">
-                               <p>Set by <a href="/posts/{{user}}">{{user}}</a> on {{started}}</p>
+                               <p>Set by <a href="/goals/{{user}}">{{user}}</a> on {{started}}</p>
                                <div class="btn-group rounded shadow">
                                    {{^achieved}}
                                    {{^overdue}}
-                                <a href="/edit/{{_id}}" title="Edit" class="btn float-left btn-outline-dark"><i class="fas fa-edit"></i> </a>
-                                <a href="/share/{{_id}}" title="Share" class="btn btn-outline-dark"><i class="fas fa-share-alt"></i> </a>
-                                <a href="/delete/{{_id}}" title="Delete" class="btn btn-outline-dark"><i class="fas fa-eraser"></i> </a> 
-                                <a href="/completegoal/{{_id}}" title="Complete" class="btn float-right btn-outline-dark"><i class="fas fa-check-double"></i></a>
+                                <a href="/goals/edit/{{_id}}" title="Edit" class="btn float-left btn-outline-dark"><i class="fas fa-edit"></i> </a>
+                                <a href="/goals/share/{{_id}}" title="Share" class="btn btn-outline-dark"><i class="fas fa-share-alt"></i> </a>
+                                <a href="/goals/delete/{{_id}}" title="Delete" class="btn btn-outline-dark"><i class="fas fa-eraser"></i> </a> 
+                                <a href="/goals/complete/{{_id}}" title="Complete" class="btn float-right btn-outline-dark"><i class="fas fa-check-double"></i></a>
                                 {{/overdue}}
                                 {{#overdue}}
-                                <a href="/delete/{{_id}}" title="Delete" class="btn btn-rounded btn-outline-dark"><i class="fas fa-eraser"></i> </a>
+                                <a href="/goals/delete/{{_id}}" title="Delete" class="btn btn-rounded btn-outline-dark"><i class="fas fa-eraser"></i> </a>
                                 {{/overdue}}
                                 {{/achieved}}
                                  {{#achieved}}
-                                    <a href="/share/{{_id}}" title="Share" class="btn btn-rounded btn-outline-dark"><i class="fas fa-share-alt"></i> </a>
+                                    <a href="/goals/share/{{_id}}" title="Share" class="btn btn-rounded btn-outline-dark"><i class="fas fa-share-alt"></i> </a>
                                  {{/achieved}}
                                 
                             </div></div>

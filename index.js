@@ -10,11 +10,15 @@ const router = require('./routes/exerciseRoutes');
 
 const mustache = require('mustache-express');
 
+const helmet = require("helmet");
+
 const app = express();
+
+app.use(helmet());
 
 const { auth } = require('express-openid-connect');
 
-
+//config for auth0
 const config = {
   authRequired: false,
   auth0Logout: true,
