@@ -14,7 +14,7 @@ const helmet = require("helmet");
 
 const app = express();
 
-app.use(helmet());
+//app.use(helmet());
 
 const { auth } = require('express-openid-connect');
 
@@ -23,8 +23,8 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
-  //baseURL: 'http://localhost:8080',
-  baseURL: 'https://goalgettergcu.herokuapp.com',
+  baseURL: 'http://localhost:8080',
+  //baseURL: 'https://goalgettergcu.herokuapp.com',
   clientID: 'awkkwd43YvCe0dpdwDA48qGRoN62V00X',
   issuerBaseURL: 'https://castortroy.eu.auth0.com'
 

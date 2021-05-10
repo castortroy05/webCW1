@@ -24,6 +24,27 @@ router.get('/user/profile', requiresAuth(), (req, res) => {
   //res.send(JSON.stringify(req.oidc.user));
 });
 
+
+//CRUD Pages
+router.get('/goals/new', requiresAuth(), controller.new_goal);
+
+router.post('/goals/new', requiresAuth(), controller.post_new_goal);
+
+router.get('/goals/delete/:id', requiresAuth(), controller.delete_goal);
+
+router.get('/goals/completegoal/:id', requiresAuth(), controller.complete_goal);
+
+router.get('/goals/edit/:id', requiresAuth(), controller.edit_goal);
+
+router.post('/goals/edit/:id', requiresAuth(), controller.post_update_goal);
+
+router.get('/goals/share/:id', requiresAuth(), controller.share_goal);
+
+router.post('/goals/share/:id', requiresAuth(), controller.post_share_goal);
+
+
+
+
 //goals pages
 
 router.get('/goals/allgoals', requiresAuth(), controller.user_goals_list);
@@ -39,11 +60,6 @@ router.get('/goals/week/:id',requiresAuth(), controller.view_week_goals);
 router.get('/goals/:user', requiresAuth(), controller.user_goals_list);
 
 
-//CRUD Pages
-router.get('/goals/new', requiresAuth(), controller.new_goal);
-
-router.post('/goals/new', requiresAuth(), controller.post_new_goal);
-
 
 
 //testing pages
@@ -54,27 +70,20 @@ router.use('/dbseed', requiresAuth(), controller.seed);
 
 
 
-router.get('/goals/delete/:id', requiresAuth(), controller.delete_goal);
-
-router.get('/goals/completegoal/:id', requiresAuth(), controller.complete_goal);
-
-router.get('/goals/edit/:id', requiresAuth(), controller.edit_goal);
 
 
+
+
+//router.get('/goals/sharegoal/:id', requiresAuth(), controller.share_goal);
+
+//router.post('/goals/sharegoal/:id', requiresAuth(), controller.post_share_goal);
 
 //router.post('/completegoal/:id', requiresAuth(), controller.post_complete_goal);
 
-router.get('/goals/sharegoal/:id', requiresAuth(), controller.share_goal);
-
-router.post('/goals/sharegoal/:id', requiresAuth(), controller.post_share_goal);
 
 
 
-router.post('/goals/edit/:id', requiresAuth(), controller.post_update_goal);
 
-router.get('/goals/share/:id', requiresAuth(), controller.share_goal);
-
-router.post('/goals/share/:id', requiresAuth(), controller.post_share_goal);
 
 
 
