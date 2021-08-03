@@ -1,5 +1,5 @@
 const { rejects } = require('assert');
-const nedb = require('nedb');
+const nedb = require(nedb);
 const { resolve } = require('path');
 const weekNumber = require('current-week-number');
 const nodemailer = require('nodemailer');
