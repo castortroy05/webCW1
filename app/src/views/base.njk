@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} · Goal Getters</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-body-tertiary border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="/"><i class="bi bi-lightning-charge-fill text-warning"></i> Goal Getters</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      {% if me %}
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="/goals">All goals</a></li>
+        <li class="nav-item"><a class="nav-link" href="/goals?status=active">Active <span class="badge text-bg-warning">{{ counts.active }}</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="/goals?status=overdue">Overdue <span class="badge text-bg-danger">{{ counts.overdue }}</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="/goals?status=complete">Done <span class="badge text-bg-success">{{ counts.complete }}</span></a></li>
+      </ul>
+      <a class="btn btn-primary btn-sm me-2" href="/goals/new"><i class="bi bi-plus-lg"></i> New goal</a>
+      <a class="btn btn-outline-secondary btn-sm me-2" href="/profile">{{ me.nickname }}</a>
+      <a class="btn btn-outline-secondary btn-sm" href="/logout">Log out</a>
+      {% else %}
+      <span class="me-auto"></span>
+      <a class="btn btn-primary btn-sm" href="/login">Log in</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+<main class="container py-4">
+  {% block content %}{% endblock %}
+</main>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

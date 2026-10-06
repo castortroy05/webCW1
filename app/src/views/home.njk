@@ -1,0 +1,23 @@
+{% extends "base.njk" %}
+{% block content %}
+{% if me %}
+  <h1 class="h3 mb-4">Welcome back, {{ me.nickname }}</h1>
+  <div class="row g-3 mb-4">
+    <div class="col-4"><div class="card text-center"><div class="card-body"><div class="display-6 text-warning">{{ counts.active }}</div>Active</div></div></div>
+    <div class="col-4"><div class="card text-center"><div class="card-body"><div class="display-6 text-danger">{{ counts.overdue }}</div>Overdue</div></div></div>
+    <div class="col-4"><div class="card text-center"><div class="card-body"><div class="display-6 text-success">{{ counts.complete }}</div>Complete</div></div></div>
+  </div>
+  <h2 class="h5">Up next</h2>
+  {% if upcoming.length %}
+    <div class="row g-3">{% for goal in upcoming %}<div class="col-md-4">{% include "goal-card.njk" %}</div>{% endfor %}</div>
+  {% else %}
+    <p class="text-secondary">No active goals. <a href="/goals/new">Set one for this week.</a></p>
+  {% endif %}
+{% else %}
+  <div class="text-center py-5">
+    <h1 class="display-5">Plan your week. Hit your goals.</h1>
+    <p class="lead text-secondary">Set weekly exercise goals, track what you achieve, and share plans with friends. Your goals are private to you.</p>
+    <a class="btn btn-primary btn-lg" href="/login">Log in to get started</a>
+  </div>
+{% endif %}
+{% endblock %}

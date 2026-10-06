@@ -1,0 +1,14 @@
+{% extends "base.njk" %}
+{% block content %}
+<h1 class="h3 mb-3">Share “{{ goal.name }}”</h1>
+{% if sent %}<div class="alert alert-success">Sent to {{ sent }}.</div>{% endif %}
+{% if errors %}<div class="alert alert-danger"><ul class="mb-0">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+<form method="post" action="/goals/{{ goal.id }}/share" class="col-lg-6">
+  <div class="mb-3"><label class="form-label" for="recipient">Friend's email</label>
+    <input class="form-control" type="email" id="recipient" name="recipient" required value="{{ values.recipient }}"></div>
+  <div class="mb-3"><label class="form-label" for="message">Message <span class="text-secondary">(optional)</span></label>
+    <textarea class="form-control" id="message" name="message" rows="3" maxlength="500">{{ values.message }}</textarea></div>
+  <button class="btn btn-primary" type="submit"><i class="bi bi-send"></i> Send</button>
+  <a class="btn btn-link" href="/goals">Back</a>
+</form>
+{% endblock %}
