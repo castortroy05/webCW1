@@ -2,3 +2,4 @@
 .goal-overdue { border-color: var(--bs-danger-border-subtle); }
 .goal-active { border-color: var(--bs-warning-border-subtle); }
 .card-footer form { display: inline; }
+.card > .card-footer { margin-top: auto; }

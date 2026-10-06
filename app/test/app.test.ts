@@ -99,6 +99,14 @@ describe('app', () => {
     expect(store.list('ann')).toHaveLength(0);
   });
 
+  it('rejects opaque origins with 403, not a crash', async () => {
+    await request(app).post('/goals').set(as('ann')).set('Origin', 'null').type('form').send(goal('2026-03-20')).expect(403);
+  });
+
+  it('accepts same-origin posts that carry an Origin header', async () => {
+    await request(app).post('/goals').set(as('ann')).set('Host', 'localhost').set('Origin', 'http://localhost').type('form').send(goal('2026-03-20')).expect(303);
+  });
+
   it('validates the goal form', async () => {
     const res = await request(app).post('/goals').set(as('ann')).type('form').send({ name: 'x' });
     expect(res.status).toBe(400);

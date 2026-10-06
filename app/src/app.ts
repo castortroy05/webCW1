@@ -32,11 +32,19 @@ function auth0(config: Config): RequestHandler {
   });
 }
 
+function originHost(origin: string): string | undefined {
+  try {
+    return new URL(origin).host;
+  } catch {
+    return undefined; // e.g. "null" from sandboxed or privacy-stripped requests
+  }
+}
+
 /** Rejects cross-site form posts: a browser-supplied Origin must match our host. */
 const sameOrigin: RequestHandler = (req, res, next) => {
   if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
   const origin = req.get('origin');
-  if (origin && new URL(origin).host !== req.get('host')) {
+  if (origin && originHost(origin) !== req.get('host')) {
     res.status(403).render('error.njk', { title: 'Forbidden', status: 403, message: 'Cross-site request blocked.' });
     return;
   }
@@ -57,6 +65,8 @@ export function createApp(deps: AppDeps): express.Express {
 
   app.use(
     helmet({
+      // "same-origin" (not helmet's "no-referrer") so browsers send a real Origin on form posts.
+      referrerPolicy: { policy: 'same-origin' },
       contentSecurityPolicy: {
         directives: { 'img-src': ["'self'", 'data:', 'https:'] },
       },
