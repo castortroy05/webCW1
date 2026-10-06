@@ -1,7 +1,8 @@
-import { Router, type Request, type RequestHandler, type Response } from 'express';
+import { type Request, type RequestHandler, type Response, Router } from 'express';
+import { rateLimit } from 'express-rate-limit';
+import { WEEK_KEY } from './dates.js';
 import type { Goal, GoalStore, Status } from './db.js';
 import { parseGoalForm, shareForm } from './forms.js';
-import { WEEK_KEY } from './dates.js';
 import type { Mailer } from './mailer.js';
 
 const STATUS_PAGES: Record<string, { status?: Status; title: string }> = {
@@ -33,8 +34,32 @@ function profile(req: Request): Profile | undefined {
   };
 }
 
-export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mailer }): Router {
+export function createRouter({
+  store,
+  mailer,
+  shareLimit,
+}: {
+  store: GoalStore;
+  mailer: Mailer;
+  shareLimit: number;
+}): Router {
   const router = Router();
+
+  /** Stops the share form being used to spam people: per signed-in user, per hour. */
+  const shareLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    limit: shareLimit,
+    standardHeaders: 'draft-8',
+    legacyHeaders: false,
+    keyGenerator: (_req, res) => (res.locals.me as Profile).id,
+    handler: (_req, res) => {
+      res.status(429).render('error.njk', {
+        title: 'Slow down',
+        status: 429,
+        message: 'You have shared too many goals recently. Please try again later.',
+      });
+    },
+  });
 
   /** Loads the signed-in user (or redirects to login) and exposes them to views. */
   const requireUser: RequestHandler = (req, res, next) => {
@@ -88,7 +113,9 @@ export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mail
   router.post('/goals', requireUser, (req, res) => {
     const parsed = parseGoalForm(req.body);
     if (!parsed.ok) {
-      return void res.status(400).render('goal-form.njk', { title: 'New goal', action: '/goals', errors: parsed.errors, values: parsed.values });
+      return void res
+        .status(400)
+        .render('goal-form.njk', { title: 'New goal', action: '/goals', errors: parsed.errors, values: parsed.values });
     }
     store.create(me(res).id, parsed.input);
     res.redirect(303, '/goals');
@@ -99,7 +126,11 @@ export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mail
     if (!goal) return;
     if (goal.status !== 'active') return void res.redirect(303, '/goals');
     const items = Array.from({ length: 3 }, (_, i) => goal.items[i] ?? {});
-    res.render('goal-form.njk', { title: 'Edit goal', action: `/goals/${goal.id}`, values: { name: goal.name, items } });
+    res.render('goal-form.njk', {
+      title: 'Edit goal',
+      action: `/goals/${goal.id}`,
+      values: { name: goal.name, items },
+    });
   });
 
   router.post('/goals/:id', requireUser, (req, res) => {
@@ -107,7 +138,12 @@ export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mail
     if (!goal) return;
     const parsed = parseGoalForm(req.body);
     if (!parsed.ok) {
-      return void res.status(400).render('goal-form.njk', { title: 'Edit goal', action: `/goals/${goal.id}`, errors: parsed.errors, values: parsed.values });
+      return void res.status(400).render('goal-form.njk', {
+        title: 'Edit goal',
+        action: `/goals/${goal.id}`,
+        errors: parsed.errors,
+        values: parsed.values,
+      });
     }
     store.update(me(res).id, goal.id, parsed.input);
     res.redirect(303, '/goals');
@@ -132,7 +168,7 @@ export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mail
     if (goal) res.render('share.njk', { title: 'Share goal', goal });
   });
 
-  router.post('/goals/:id/share', requireUser, async (req, res) => {
+  router.post('/goals/:id/share', requireUser, shareLimiter, async (req, res) => {
     const goal = loadGoal(req, res);
     if (!goal) return;
     const parsed = shareForm.safeParse(req.body);
@@ -150,7 +186,9 @@ export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mail
       to: parsed.data.recipient,
       replyTo: user.email,
       subject: `${user.name} shared a goal with you: ${goal.name}`,
-      text: [`${user.name} wants to share their goal "${goal.name}":`, '', ...lines, '', parsed.data.message ?? ''].join('\n').trim(),
+      text: [`${user.name} wants to share their goal "${goal.name}":`, '', ...lines, '', parsed.data.message ?? '']
+        .join('\n')
+        .trim(),
     });
     res.render('share.njk', { title: 'Share goal', goal, sent: parsed.data.recipient });
   });

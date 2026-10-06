@@ -10,8 +10,9 @@ Originally a web-development coursework project; rebuilt with a modern stack.
 - SQLite (`better-sqlite3`): small relational data, per-user scoping, no database server to run
 - Auth0 login via `express-openid-connect`
 - Nunjucks views (auto-escaped), Bootstrap 5.3 + Bootstrap Icons served locally (strict CSP, no CDNs)
-- Zod-validated configuration and form input, Nodemailer for sharing
-- Vitest + Supertest, GitHub Actions CI, Docker
+- Zod-validated configuration and form input, Nodemailer for sharing (rate-limited per user)
+- Structured JSON logging with pino (`LOG_LEVEL` to tune), `/healthz` endpoint and Docker `HEALTHCHECK`
+- Biome for lint and format, Vitest + Supertest, Playwright end-to-end tests, GitHub Actions CI, Docker
 
 ## Try it locally (no accounts needed)
 
@@ -40,7 +41,10 @@ Auth0: create a *Regular Web Application* and add `http://localhost:8080/callbac
 | --- | --- |
 | `npm run dev` | Run with reload, loading `.env` |
 | `npm test` | Run the test suite |
+| `npm run e2e` | Browser tests with Playwright (`npx playwright install chromium` once) |
+| `npm run lint` / `lint:fix` | Lint and format check with Biome |
 | `npm run typecheck` | Type-check without emitting |
+| `npm run import-legacy` | Import goals from the old coursework database (see below) |
 | `npm run build` / `npm start` | Compile to `dist/` and run it |
 
 ## Deploying
@@ -58,6 +62,14 @@ The SQLite file lives at `/data/goalgetters.db`. Mount a persistent volume there
 - Every query is scoped to the Auth0 user id (`sub`); other users' goals return 404.
 - State changes are `POST` only, with a same-origin check on top of Auth0's `SameSite=Lax` session cookie.
 
-## Legacy code
+## Importing the original coursework data
 
-The original coursework implementation (Express 4 + NeDB + Mustache) is still in the repository root (`index.js`, `controllers/`, `models/`, `routes/`, `views/`) for reference and can be deleted. Its design screenshots are in `Images/`.
+The original app (Express 4 + NeDB + Mustache) was removed from the tree but remains in git history, together with its `newgoals.db` datafile. To bring those goals into the new database for an Auth0 user:
+
+```sh
+git show 40f602c:newgoals.db > /tmp/newgoals.db
+cd app
+npm run import-legacy -- /tmp/newgoals.db "auth0|YOUR_USER_ID" antony.lockhart
+```
+
+The last argument limits the import to one legacy username. Your Auth0 user id is shown in the Auth0 dashboard (Users). Design screenshots from the coursework are in `Images/`.

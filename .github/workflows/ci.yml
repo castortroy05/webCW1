@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
 jobs:
   test:
@@ -17,6 +17,16 @@ jobs:
           cache: npm
           cache-dependency-path: app/package-lock.json
       - run: npm ci
+      - run: npm run lint
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: app/test-results

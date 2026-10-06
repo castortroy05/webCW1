@@ -107,3 +107,6 @@ npm-debug.log
 
 # Goal Getters local data
 app/data/
+
+app/test-results/
+app/playwright-report/

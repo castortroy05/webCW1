@@ -1,6 +1,6 @@
-import Database from 'better-sqlite3';
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
+import Database from 'better-sqlite3';
 import { isoDate, isoWeek, isoWeekKey } from './dates.js';
 
 export type Status = 'active' | 'overdue' | 'complete';
@@ -163,10 +163,24 @@ export class GoalStore {
     return insert();
   }
 
+  /** Inserts a goal with explicit dates, for importing historical data. */
+  importGoal(
+    userId: string,
+    goal: { name: string; started: string; completedAt: string | null; items: GoalItem[] },
+  ): number {
+    return this.db.transaction(() => {
+      const { lastInsertRowid } = this.db
+        .prepare('INSERT INTO goals (user_id, name, started, completed_at) VALUES (?, ?, ?, ?)')
+        .run(userId, goal.name, goal.started, goal.completedAt);
+      this.replaceItems(Number(lastInsertRowid), goal.items);
+      return Number(lastInsertRowid);
+    })();
+  }
+
   /** Edits are only allowed while a goal is still active. */
   update(userId: string, id: number, input: GoalInput): boolean {
     const existing = this.get(userId, id);
-    if (!existing || existing.status !== 'active') return false;
+    if (existing?.status !== 'active') return false;
     this.db.transaction(() => {
       this.db.prepare('UPDATE goals SET name = ? WHERE id = ?').run(input.name, id);
       this.replaceItems(id, input.items);
@@ -190,6 +204,6 @@ export class GoalStore {
     const insert = this.db.prepare(
       'INSERT INTO goal_items (goal_id, position, exercise, activity, due_date) VALUES (?, ?, ?, ?, ?)',
     );
-    items.forEach((i, pos) => insert.run(goalId, pos, i.exercise, i.activity, i.dueDate));
+    for (const [pos, i] of items.entries()) insert.run(goalId, pos, i.exercise, i.activity, i.dueDate);
   }
 }

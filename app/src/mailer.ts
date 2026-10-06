@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import type { Config } from './config.js';
+import { logger } from './logger.js';
 
 export interface ShareMessage {
   to: string;
@@ -20,7 +21,8 @@ export function createMailer(config: Pick<Config, 'SMTP_URL' | 'MAIL_FROM'>): Ma
   return {
     async send(message) {
       const info = await transport.sendMail({ from: config.MAIL_FROM, ...message });
-      if (!config.SMTP_URL) console.log('[mail:dev]', info.message);
+      if (!config.SMTP_URL)
+        logger.info({ mail: JSON.parse(String(info.message)) }, 'no SMTP_URL: mail logged, not sent');
     },
   };
 }
