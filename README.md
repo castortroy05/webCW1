@@ -13,7 +13,17 @@ Originally a web-development coursework project; rebuilt with a modern stack.
 - Zod-validated configuration and form input, Nodemailer for sharing
 - Vitest + Supertest, GitHub Actions CI, Docker
 
-## Running locally
+## Try it locally (no accounts needed)
+
+```sh
+cd app
+npm install
+npm run demo             # http://localhost:8080, signed in as a demo user
+```
+
+Demo mode skips Auth0 and only logs emails to the console; it refuses to start when `NODE_ENV=production`.
+
+## Running locally with real Auth0
 
 ```sh
 cd app

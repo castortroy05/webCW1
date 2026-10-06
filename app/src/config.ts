@@ -12,11 +12,23 @@ const schema = z.object({
   SMTP_URL: z.string().optional(),
   MAIL_FROM: z.string().default('Goal Getters <no-reply@goalgetters.local>'),
   TRUST_PROXY: z.stringbool().default(false),
+  // Local demo only: skips Auth0 and signs everyone in as a demo user.
+  DEV_AUTH: z.stringbool().default(false),
 });
 
 export type Config = z.infer<typeof schema>;
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
+  if (env.DEV_AUTH === 'true') {
+    // Demo mode needs no Auth0 settings; fill in harmless placeholders.
+    env = {
+      BASE_URL: `http://localhost:${env.PORT ?? 8080}`,
+      AUTH0_ISSUER_BASE_URL: 'https://demo.invalid',
+      AUTH0_CLIENT_ID: 'demo',
+      SESSION_SECRET: 'demo-mode-only-not-a-secret-0123456789',
+      ...env,
+    };
+  }
   const parsed = schema.safeParse(env);
   if (!parsed.success) {
     const problems = parsed.error.issues.map((i) => `  ${i.path.join('.')}: ${i.message}`).join('\n');

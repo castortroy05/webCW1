@@ -2,6 +2,7 @@ import type { RequestHandler } from 'express';
 import request from 'supertest';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
+import { loadConfig } from '../src/config.js';
 import { GoalStore } from '../src/db.js';
 import { isoWeek } from '../src/dates.js';
 import type { Mailer } from '../src/mailer.js';
@@ -152,6 +153,15 @@ describe('app', () => {
 
   it('returns a friendly 404', async () => {
     await request(app).get('/nope').expect(404);
+  });
+});
+
+describe('loadConfig', () => {
+  it('requires Auth0 settings normally', () => {
+    expect(() => loadConfig({})).toThrow(/Invalid configuration/);
+  });
+  it('needs nothing in demo mode', () => {
+    expect(loadConfig({ DEV_AUTH: 'true' }).DEV_AUTH).toBe(true);
   });
 });
 
