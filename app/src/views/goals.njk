@@ -1,0 +1,12 @@
+{% extends "base.njk" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">{{ title }}{% if week %} <small class="text-secondary">· week {{ week }}</small>{% endif %}</h1>
+  {% if week %}<a class="btn btn-sm btn-outline-secondary" href="/goals">Clear week filter</a>{% endif %}
+</div>
+{% if goals.length %}
+  <div class="row g-3">{% for goal in goals %}<div class="col-md-6 col-lg-4">{% include "goal-card.njk" %}</div>{% endfor %}</div>
+{% else %}
+  <p class="text-secondary">Nothing here yet. <a href="/goals/new">Add a goal.</a></p>
+{% endif %}
+{% endblock %}

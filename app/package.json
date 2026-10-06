@@ -1,0 +1,46 @@
+{
+  "name": "goalgetters",
+  "version": "2.0.0",
+  "description": "Weekly exercise goal planner",
+  "type": "module",
+  "private": true,
+  "license": "ISC",
+  "author": "Antony Lockhart",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/castortroy05/webCW1.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/server.ts",
+    "build": "tsc -p tsconfig.build.json && cp -r src/views src/public dist/",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
+    "express": "^5.2.1",
+    "express-openid-connect": "^3.4.0",
+    "helmet": "^8.3.0",
+    "nodemailer": "^10.0.15",
+    "nunjucks": "^3.2.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.4",
+    "@types/nodemailer": "^8.0.2",
+    "@types/nunjucks": "^3.2.6",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.3.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}

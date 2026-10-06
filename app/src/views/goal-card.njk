@@ -1,0 +1,25 @@
+<div class="card h-100 goal-{{ goal.status }}">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <strong>{{ goal.name }}</strong>
+    {% if goal.status == 'complete' %}<span class="badge text-bg-success">Complete</span>
+    {% elif goal.status == 'overdue' %}<span class="badge text-bg-danger">Overdue</span>
+    {% else %}<span class="badge text-bg-warning">Active</span>{% endif %}
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for item in goal.items %}
+    <li class="list-group-item"><span class="fw-semibold">{{ item.exercise }}</span> · {{ item.activity }}
+      <div class="small text-secondary">by {{ item.dueDate }}</div></li>
+    {% endfor %}
+  </ul>
+  <div class="card-footer d-flex flex-wrap gap-2 justify-content-between align-items-center">
+    <a class="small" href="/goals?week={{ goal.week }}">Week {{ goal.week }}</a>
+    <div class="d-flex gap-1">
+      {% if goal.status == 'active' %}
+        <form method="post" action="/goals/{{ goal.id }}/complete"><button class="btn btn-sm btn-success" title="Mark complete"><i class="bi bi-check2-all"></i></button></form>
+        <a class="btn btn-sm btn-outline-secondary" href="/goals/{{ goal.id }}/edit" title="Edit"><i class="bi bi-pencil"></i></a>
+      {% endif %}
+      <a class="btn btn-sm btn-outline-secondary" href="/goals/{{ goal.id }}/share" title="Share"><i class="bi bi-share"></i></a>
+      <form method="post" action="/goals/{{ goal.id }}/delete" data-confirm="Delete this goal?"><button class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></button></form>
+    </div>
+  </div>
+</div>

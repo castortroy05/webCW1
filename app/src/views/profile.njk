@@ -1,0 +1,9 @@
+{% extends "base.njk" %}
+{% block content %}
+<div class="card col-md-6"><div class="card-body d-flex gap-3 align-items-center">
+  {% if me.picture %}<img class="rounded-circle" src="{{ me.picture }}" alt="" width="72" height="72" referrerpolicy="no-referrer">{% endif %}
+  <div><h1 class="h4 mb-1">{{ me.name }}</h1>
+    <div class="text-secondary">{{ me.email }}</div>
+    {% if me.updatedAt %}<div class="small text-secondary">Profile updated {{ me.updatedAt }}</div>{% endif %}</div>
+</div></div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.njk" %}
+{% block content %}
+<h1 class="h3 mb-3">{{ title }}</h1>
+{% if errors %}<div class="alert alert-danger"><ul class="mb-0">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+<form method="post" action="{{ action }}" class="col-lg-9">
+  <div class="mb-3">
+    <label class="form-label" for="name">Goal name <span class="text-secondary">(optional)</span></label>
+    <input class="form-control" id="name" name="name" maxlength="80" value="{{ values.name }}" placeholder="e.g. Week 12 training">
+  </div>
+  <div class="row g-2 small text-secondary d-none d-md-flex"><div class="col-md-4">Exercise</div><div class="col-md-4">Details</div><div class="col-md-4">Due date</div></div>
+  {% for item in values.items %}
+  <div class="row g-2 mb-2">
+    <div class="col-md-4"><input class="form-control" name="items[{{ loop.index0 }}][exercise]" maxlength="60" placeholder="Exercise" aria-label="Exercise {{ loop.index }}" value="{{ item.exercise }}"></div>
+    <div class="col-md-4"><input class="form-control" name="items[{{ loop.index0 }}][activity]" maxlength="120" placeholder="e.g. 5 km" aria-label="Details {{ loop.index }}" value="{{ item.activity }}"></div>
+    <div class="col-md-4"><input class="form-control" type="date" name="items[{{ loop.index0 }}][dueDate]" aria-label="Due date {{ loop.index }}" value="{{ item.dueDate }}"></div>
+  </div>
+  {% endfor %}
+  <p class="small text-secondary">Fill in as many rows as you need (up to three). The goal is due on its latest date.</p>
+  <button class="btn btn-primary" type="submit">Save goal</button>
+  <a class="btn btn-link" href="/goals">Cancel</a>
+</form>
+{% endblock %}
