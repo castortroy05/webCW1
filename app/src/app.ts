@@ -32,23 +32,30 @@ function auth0(config: Config): RequestHandler {
   });
 }
 
-function originHost(origin: string): string | undefined {
-  try {
-    return new URL(origin).host;
-  } catch {
-    return undefined; // e.g. "null" from sandboxed or privacy-stripped requests
-  }
-}
-
-/** Rejects cross-site form posts: a browser-supplied Origin must match our host. */
-const sameOrigin: RequestHandler = (req, res, next) => {
-  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
-  const origin = req.get('origin');
-  if (origin && originHost(origin) !== req.get('host')) {
-    res.status(403).render('error.njk', { title: 'Forbidden', status: 403, message: 'Cross-site request blocked.' });
-    return;
-  }
-  next();
+/**
+ * Rejects cross-site form posts. A browser-supplied Origin must parse and match our
+ * host and the public scheme (from BASE_URL, so it also holds behind a TLS-terminating proxy).
+ */
+const sameOrigin = (baseUrl: string): RequestHandler => {
+  const scheme = new URL(baseUrl).protocol;
+  return (req, res, next) => {
+    if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
+    const origin = req.get('origin');
+    if (origin !== undefined) {
+      let ok = false;
+      try {
+        const u = new URL(origin); // "null" and other opaque origins throw
+        ok = u.host === req.get('host') && u.protocol === scheme;
+      } catch {
+        // unparseable: rejected below
+      }
+      if (!ok) {
+        res.status(403).render('error.njk', { title: 'Forbidden', status: 403, message: 'Cross-site request blocked.' });
+        return;
+      }
+    }
+    next();
+  };
 };
 
 export function createApp(deps: AppDeps): express.Express {
@@ -79,7 +86,7 @@ export function createApp(deps: AppDeps): express.Express {
 
   app.use(deps.authMiddleware ?? auth0(config as Config));
   app.use(express.urlencoded({ extended: true, limit: '20kb' }));
-  app.use(sameOrigin);
+  app.use(sameOrigin(config.BASE_URL));
   app.use(createRouter({ store, mailer }));
 
   app.use((_req, res) => {

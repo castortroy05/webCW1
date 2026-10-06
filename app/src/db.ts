@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { isoDate, isoWeek } from './dates.js';
+import { isoDate, isoWeek, isoWeekKey } from './dates.js';
 
 export type Status = 'active' | 'overdue' | 'complete';
 
@@ -17,6 +17,8 @@ export interface Goal {
   started: string;
   endDate: string;
   week: number;
+  /** Year-qualified ISO week, e.g. "2026-W12". */
+  weekKey: string;
   status: Status;
   items: GoalItem[];
 }
@@ -34,7 +36,8 @@ export interface Counts {
 
 export interface ListFilter {
   status?: Status;
-  week?: number;
+  /** Year-qualified ISO week key, e.g. "2026-W12". */
+  week?: string;
 }
 
 const SCHEMA = `
@@ -103,8 +106,14 @@ export class GoalStore {
          WHERE goal_id IN (${marks}) ORDER BY goal_id, position`,
       )
       .all(...rows.map((r) => r.id)) as ItemRow[];
+    const byGoal = new Map<number, ItemRow[]>();
+    for (const i of items) {
+      const list = byGoal.get(i.goal_id);
+      if (list) list.push(i);
+      else byGoal.set(i.goal_id, [i]);
+    }
     return rows.map((r) => {
-      const mine = items.filter((i) => i.goal_id === r.id);
+      const mine = byGoal.get(r.id) ?? [];
       const endDate = mine.reduce((max, i) => (i.due_date > max ? i.due_date : max), '');
       const status: Status = r.completed_at ? 'complete' : endDate < today ? 'overdue' : 'active';
       return {
@@ -113,6 +122,7 @@ export class GoalStore {
         started: r.started,
         endDate,
         week: isoWeek(endDate),
+        weekKey: isoWeekKey(endDate),
         status,
         items: mine.map((i) => ({ exercise: i.exercise, activity: i.activity, dueDate: i.due_date })),
       };
@@ -125,7 +135,7 @@ export class GoalStore {
       .all(userId) as GoalRow[];
     return this.hydrate(rows)
       .filter((g) => (filter.status ? g.status === filter.status : true))
-      .filter((g) => (filter.week ? g.week === filter.week : true))
+      .filter((g) => (filter.week ? g.weekKey === filter.week : true))
       .sort((a, b) => a.endDate.localeCompare(b.endDate) || a.id - b.id);
   }
 

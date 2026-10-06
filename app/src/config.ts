@@ -29,6 +29,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
       ...env,
     };
   }
+  // `.env` files copied from .env.example leave optional keys blank ("KEY="); treat those as unset.
+  env = Object.fromEntries(Object.entries(env).filter(([, v]) => v !== ''));
   const parsed = schema.safeParse(env);
   if (!parsed.success) {
     const problems = parsed.error.issues.map((i) => `  ${i.path.join('.')}: ${i.message}`).join('\n');

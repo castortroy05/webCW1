@@ -1,6 +1,7 @@
 import { Router, type Request, type RequestHandler, type Response } from 'express';
 import type { Goal, GoalStore, Status } from './db.js';
 import { parseGoalForm, shareForm } from './forms.js';
+import { WEEK_KEY } from './dates.js';
 import type { Mailer } from './mailer.js';
 
 const STATUS_PAGES: Record<string, { status?: Status; title: string }> = {
@@ -70,13 +71,13 @@ export function createRouter({ store, mailer }: { store: GoalStore; mailer: Mail
   router.get('/goals', requireUser, (req, res) => {
     const key = typeof req.query.status === 'string' ? req.query.status : 'all';
     const page = STATUS_PAGES[key] ?? STATUS_PAGES.all!;
-    const week = Number(req.query.week);
-    const filter = { ...(page.status ? { status: page.status } : {}), ...(Number.isInteger(week) && week > 0 ? { week } : {}) };
+    const week = typeof req.query.week === 'string' && WEEK_KEY.test(req.query.week) ? req.query.week : undefined;
+    const filter = { ...(page.status ? { status: page.status } : {}), ...(week ? { week } : {}) };
     res.render('goals.njk', {
       title: page.title,
       goals: store.list(me(res).id, filter),
       active: key,
-      week: filter.week,
+      week,
     });
   });
 

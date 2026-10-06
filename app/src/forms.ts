@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { isRealDate } from './dates.js';
 import type { GoalInput } from './db.js';
 
 const MAX_ITEMS = 3;
-const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((s) => !Number.isNaN(Date.parse(s)), 'Invalid date');
+const date = z.string().refine(isRealDate, 'Invalid date');
 
 const item = z.object({
   exercise: z.string().trim().min(1, 'Exercise is required').max(60),
@@ -33,7 +34,8 @@ export function parseGoalForm(body: unknown): Parsed {
   const errors: string[] = [];
   if (values.name.length > 80) errors.push('Goal name must be 80 characters or fewer');
   if (filled.length === 0) errors.push('Add at least one exercise');
-  filled.forEach((r, i) => {
+  rows.forEach((r, i) => {
+    if (!(r.exercise || r.activity || r.dueDate)) return; // blank row; keep the original row number
     const res = item.safeParse(r);
     if (!res.success) errors.push(`Exercise ${i + 1}: ${res.error.issues.map((x) => x.message).join(', ')}`);
     else if (!res.data.dueDate) errors.push(`Exercise ${i + 1}: a valid due date is required`);

@@ -12,7 +12,7 @@
     {% endfor %}
   </ul>
   <div class="card-footer d-flex flex-wrap gap-2 justify-content-between align-items-center">
-    <a class="small" href="/goals?week={{ goal.week }}">Week {{ goal.week }}</a>
+    <a class="small" href="/goals?week={{ goal.weekKey }}">Week {{ goal.week }}</a>
     <div class="d-flex gap-1">
       {% if goal.status == 'active' %}
         <form method="post" action="/goals/{{ goal.id }}/complete"><button class="btn btn-sm btn-success" title="Mark complete"><i class="bi bi-check2-all"></i></button></form>

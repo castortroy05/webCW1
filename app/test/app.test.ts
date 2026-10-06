@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
 import { loadConfig } from '../src/config.js';
 import { GoalStore } from '../src/db.js';
-import { isoWeek } from '../src/dates.js';
+import { isoWeek, isoWeekKey, isRealDate } from '../src/dates.js';
 import type { Mailer } from '../src/mailer.js';
 
 const NOW = new Date('2026-03-18T12:00:00Z');
@@ -108,6 +108,30 @@ describe('app', () => {
     await request(app).post('/goals').set(as('ann')).set('Host', 'localhost').set('Origin', 'http://localhost').type('form').send(goal('2026-03-20')).expect(303);
   });
 
+  it('rejects a downgraded scheme in Origin', async () => {
+    await request(app).post('/goals').set(as('ann')).set('Host', 'localhost').set('Origin', 'https://localhost').type('form').send(goal('2026-03-20')).expect(403);
+  });
+
+  it('rejects impossible calendar dates', async () => {
+    const res = await request(app).post('/goals').set(as('ann')).type('form').send(goal('2026-02-31'));
+    expect(res.status).toBe(400);
+    expect(store.list('ann')).toHaveLength(0);
+  });
+
+  it('reports errors against the original row number', async () => {
+    const res = await request(app).post('/goals').set(as('ann')).type('form').send({ 'items[0][exercise]': '', 'items[0][activity]': '', 'items[0][dueDate]': '', 'items[1][exercise]': 'Swim', 'items[1][activity]': '', 'items[1][dueDate]': '' });
+    expect(res.text).toContain('Exercise 2:');
+    expect(res.text).not.toContain('Exercise 1:');
+  });
+
+  it('keeps weeks from different years apart', async () => {
+    await request(app).post('/goals').set(as('ann')).type('form').send(goal('2024-12-30', { name: 'Old' }));
+    await request(app).post('/goals').set(as('ann')).type('form').send(goal('2026-01-01', { name: 'New' }));
+    const res = await request(app).get('/goals?week=2026-W01').set(as('ann'));
+    expect(res.text).toContain('New');
+    expect(res.text).not.toContain('Old');
+  });
+
   it('validates the goal form', async () => {
     const res = await request(app).post('/goals').set(as('ann')).type('form').send({ name: 'x' });
     expect(res.status).toBe(400);
@@ -160,8 +184,26 @@ describe('loadConfig', () => {
   it('requires Auth0 settings normally', () => {
     expect(() => loadConfig({})).toThrow(/Invalid configuration/);
   });
+  it('treats blank optional values as unset', () => {
+    const base = { BASE_URL: 'http://localhost', AUTH0_ISSUER_BASE_URL: 'https://t.auth0.com', AUTH0_CLIENT_ID: 'id', SESSION_SECRET: 'x'.repeat(32) };
+    expect(loadConfig({ ...base, AUTH0_CLIENT_SECRET: '', SMTP_URL: '' }).AUTH0_CLIENT_SECRET).toBeUndefined();
+  });
   it('needs nothing in demo mode', () => {
     expect(loadConfig({ DEV_AUTH: 'true' }).DEV_AUTH).toBe(true);
+  });
+});
+
+describe('dates', () => {
+  it('builds year-qualified week keys using the ISO year', () => {
+    expect(isoWeekKey('2024-12-30')).toBe('2025-W01');
+    expect(isoWeekKey('2026-01-01')).toBe('2026-W01');
+    expect(isoWeekKey('2021-01-03')).toBe('2020-W53');
+  });
+  it('detects impossible dates', () => {
+    expect(isRealDate('2026-02-28')).toBe(true);
+    expect(isRealDate('2026-02-31')).toBe(false);
+    expect(isRealDate('2026-13-01')).toBe(false);
+    expect(isRealDate('nope')).toBe(false);
   });
 });
 
